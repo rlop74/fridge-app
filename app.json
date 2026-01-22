@@ -1,0 +1,64 @@
+{
+  "expo": {
+    "name": "potate",
+    "slug": "potatodoro",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/1.png",
+    "scheme": "potate",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.potatodoroorganization.potatodoro",
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.potatodoroorganization.potatodoro",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/1.png",
+        "backgroundColor": "#E6F4FE"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/1.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/1.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "backgroundColor": "#000000"
+          }
+        }
+      ],
+      "expo-sqlite",
+      "expo-font",
+      "expo-audio"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "55346f1f-d294-4bd0-9cd9-a51cb0d4e329"
+      }
+    },
+    "owner": "potatodoro-organization"
+  }
+}
