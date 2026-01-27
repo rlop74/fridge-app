@@ -25,6 +25,14 @@ const MAPPING = {
   "paperplane.fill": "send",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
+  "archivebox.fill": "kitchen",
+  "camera.fill": "camera",
+  "magnifyingglass": "search",
+  "bell.fill": "battery-charging-full",
+  "exclamationmark.triangle.fill": "warning",
+  "refrigerator.fill": "archive",
+  "camera.viewfinder": "camera",
+  // "heart.fill": "heart-broken",
 } as IconMapping;
 
 /**
