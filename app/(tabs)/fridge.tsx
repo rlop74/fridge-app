@@ -6,13 +6,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Constants & Types
 
 // Hooks
+import { useFridgeStore } from "@/hooks/useFridgeItems";
 
 // api
-import { getFridgeItems } from "../../api/fridge.js"
+import { getFridgeItems } from "@/api/fridge";
 
 export default function Fridge() {
     const [search, setSearch] = useState("");
-    const [fridgeItems, setFridgeItems] = useState([]);
+    // const { fridgeItems, setFridgeItems } = useFridgeStore((state) => state);
+    const fridgeItems = useFridgeStore((state) => state.fridgeItems);
+    const setFridgeItems = useFridgeStore((state) => state.setFridgeItems);
 
     const handleCamera = () => {
         alert("Camera has been pressed");
