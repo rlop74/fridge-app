@@ -1,10 +1,10 @@
 import { create } from "zustand";
 
-interface FridgeItem {
+export interface FridgeItem {
     id: number;
     name: string;
     quantity: number;
-    createdAt: string;
+    created_at: string;
 }
 
 type FridgeStore = {
