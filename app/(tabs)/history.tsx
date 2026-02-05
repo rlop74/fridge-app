@@ -1,6 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import { useState } from "react";
+import { formatDate } from "@/services/format-date";
 
 interface item {
     id: number;
@@ -60,40 +61,60 @@ export default function History() {
     });
 
     return (
-        <SafeAreaView
-            className={`flex-1 transition-colors duration-300 p-4 gap-4 overflow-hidden`}
-        >
-            <Text className="text-2xl font-bold">History</Text>
-            <TextInput
-                placeholder="Search..."
-                className="border border-gray-300 p-2 rounded"
-                value={search}
-                onChangeText={(newText) => setSearch(newText)}
-            />
-            <ScrollView>
-                {filteredSearch.map((item) => {
-                    return (
-                        <View
-                            key={item.id}
-                            className="border p-3 rounded-lg gap-2 justify-between mb-3"
-                        >
-                            <View>
-                                <Text className="text-lg capitalize">
-                                    {item.name}
-                                </Text>
-                                <Text className="text-sm uppercase">
-                                    {item.quantity} - {item.reason}
-                                </Text>
-                            </View>
-                            <View>
-                                <Text>Bought on: {item.createdAt}</Text>
-                                <Text>
-                                    Consumed/removed on: {item.deletedAt}
-                                </Text>
-                            </View>
+        <SafeAreaView className="flex-1 px-4 pt-4">
+            {/* header */}
+            <Text className="text-2xl font-bold mb-3">History</Text>
+
+            {/* search */}
+            <View className="mb-4">
+                <View className="flex-row items-center rounded-2xl px-4 py-3 border border-gray-500">
+                    <TextInput
+                        placeholder="Search history"
+                        // placeholderTextColor="#C7EAD5"
+                        className="flex-1 text-white"
+                        value={search}
+                        onChangeText={setSearch}
+                    />
+                </View>
+            </View>
+
+            {/* list */}
+            <ScrollView showsVerticalScrollIndicator={false}>
+                {filteredSearch.map((item) => (
+                    <View
+                        key={item.id}
+                        className="mb-3 rounded-2xl bg-[#114924] p-4 gap-3"
+                    >
+                        {/* top: identity */}
+                        <View className="flex-row justify-between items-center">
+                            <Text className="text-lg font-semibold capitalize text-white">
+                                {item.name}
+                            </Text>
+
+                            <Text className="text-xs text-[#C7EAD5] uppercase">
+                                {item.reason}
+                            </Text>
                         </View>
-                    );
-                })}
+
+                        {/* quantity */}
+                        <Text className="text-sm text-[#C7EAD5]">
+                            Quantity:{" "}
+                            <Text className="font-semibold">
+                                {item.quantity}
+                            </Text>
+                        </Text>
+
+                        {/* timeline */}
+                        <View className="gap-1">
+                            <Text className="text-xs text-[#C7EAD5]">
+                                Bought: {item.createdAt}
+                            </Text>
+                            <Text className="text-xs text-[#C7EAD5]">
+                                Removed: {item.deletedAt}
+                            </Text>
+                        </View>
+                    </View>
+                ))}
             </ScrollView>
         </SafeAreaView>
     );
