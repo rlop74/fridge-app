@@ -7,17 +7,32 @@ export interface FridgeItem {
     created_at: string;
 }
 
+export interface UsedFridgeItem {
+    id: number;
+    name: string;
+    quantity: number;
+    created_at: string;
+    reason: string;
+}
+
 type FridgeStore = {
     fridgeItems: FridgeItem[];
+    usedFridgeItems: UsedFridgeItem[];
     setFridgeItems: (items: FridgeItem[]) => void;
+    setUsedFridgeItems: (items: UsedFridgeItem[]) => void;
     addFridgeItem: (item: FridgeItem) => void;
 };
 
 export const useFridgeStore = create<FridgeStore>((set) => ({
     fridgeItems: [],
+    usedFridgeItems: [],
     setFridgeItems: (items: FridgeItem[]) =>
         set(() => ({
             fridgeItems: items,
+        })),
+    setUsedFridgeItems: (items: UsedFridgeItem[]) =>
+        set(() => ({
+            usedFridgeItems: items,
         })),
     addFridgeItem: (item: FridgeItem) =>
         set((state) => ({

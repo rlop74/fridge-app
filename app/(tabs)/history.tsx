@@ -1,7 +1,9 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, Text, TextInput, View } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatDate } from "@/services/format-date";
+import { getUsedFridgeItems } from "../../api/fridge";
+import { useFridgeStore } from "../../hooks/useFridgeItems";
 
 interface item {
     id: number;
@@ -9,7 +11,7 @@ interface item {
     quantity: number;
     reason: "consume" | "discard" | "expired" | "correction";
     createdAt: string;
-    deletedAt: string;
+    // deletedAt: string;
 }
 
 const deletedItems: item[] = [
@@ -49,10 +51,28 @@ const deletedItems: item[] = [
 
 export default function History() {
     const [search, setSearch] = useState("");
+    const usedFridgeItems = useFridgeStore((state) => state.usedFridgeItems);
+    const setUsedFridgeItems = useFridgeStore(
+        (state) => state.setUsedFridgeItems,
+    );
+
+    useEffect(() => {
+        const fetchUsedItems = async () => {
+            try {
+                const usedItems = await getUsedFridgeItems();
+                setUsedFridgeItems(usedItems);
+            } catch (err) {
+                console.error(err);
+                alert("Something went wrong");
+            }
+        };
+
+        fetchUsedItems();
+    });
 
     // apply search
     const lowerSearch = search.toLowerCase();
-    const filteredSearch = deletedItems.filter((item) => {
+    const filteredSearch = usedFridgeItems.filter((item) => {
         return (
             item.name.toLowerCase().includes(lowerSearch) ||
             item.quantity.toString().includes(lowerSearch) ||
@@ -106,12 +126,12 @@ export default function History() {
 
                         {/* timeline */}
                         <View className="gap-1">
-                            <Text className="text-xs text-[#C7EAD5]">
-                                Bought: {item.createdAt}
+                            <Text className="text-xs text-[#C7EAD5] capitalize">
+                                {item.reason} date: {formatDate(item.created_at)}
                             </Text>
-                            <Text className="text-xs text-[#C7EAD5]">
+                            {/* <Text className="text-xs text-[#C7EAD5]">
                                 Removed: {item.deletedAt}
-                            </Text>
+                            </Text> */}
                         </View>
                     </View>
                 ))}
