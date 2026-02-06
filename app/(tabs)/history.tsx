@@ -14,41 +14,6 @@ interface item {
     // deletedAt: string;
 }
 
-const deletedItems: item[] = [
-    {
-        id: 1,
-        name: "milk",
-        quantity: 2,
-        reason: "consume",
-        createdAt: "Jan 1, 2026",
-        deletedAt: "Jan 7, 2026",
-    },
-    {
-        id: 2,
-        name: "bagle",
-        quantity: 1,
-        reason: "consume",
-        createdAt: "Jan 3, 2026",
-        deletedAt: "Jan 8, 2026",
-    },
-    {
-        id: 3,
-        name: "tuna",
-        quantity: 4,
-        reason: "consume",
-        createdAt: "Jan 2, 2026",
-        deletedAt: "Jan 10, 2026",
-    },
-    {
-        id: 4,
-        name: "tuna",
-        quantity: 1,
-        reason: "consume",
-        createdAt: "Jan 2, 2026",
-        deletedAt: "Jan 6, 2026",
-    },
-];
-
 export default function History() {
     const [search, setSearch] = useState("");
     const usedFridgeItems = useFridgeStore((state) => state.usedFridgeItems);
@@ -72,7 +37,7 @@ export default function History() {
 
     // apply search
     const lowerSearch = search.toLowerCase();
-    const filteredSearch = usedFridgeItems.filter((item) => {
+    const filteredSearch = usedFridgeItems?.filter((item) => {
         return (
             item.name.toLowerCase().includes(lowerSearch) ||
             item.quantity.toString().includes(lowerSearch) ||
@@ -100,41 +65,50 @@ export default function History() {
 
             {/* list */}
             <ScrollView showsVerticalScrollIndicator={false}>
-                {filteredSearch.map((item) => (
-                    <View
-                        key={item.id}
-                        className="mb-3 rounded-2xl bg-[#114924] p-4 gap-3"
-                    >
-                        {/* top: identity */}
-                        <View className="flex-row justify-between items-center">
-                            <Text className="text-lg font-semibold capitalize text-white">
-                                {item.name}
+                {filteredSearch && filteredSearch.length > 0 ? (
+                    filteredSearch.map((item) => (
+                        <View
+                            key={item.id}
+                            className="mb-3 rounded-2xl bg-[#114924] p-4 gap-3"
+                        >
+                            {/* top: identity */}
+                            <View className="flex-row justify-between items-center">
+                                <Text className="text-lg font-semibold capitalize text-white">
+                                    {item.name}
+                                </Text>
+
+                                <Text className="text-xs text-[#C7EAD5] uppercase">
+                                    {item.reason}
+                                </Text>
+                            </View>
+
+                            {/* quantity */}
+                            <Text className="text-sm text-[#C7EAD5]">
+                                Quantity:{" "}
+                                <Text className="font-semibold">
+                                    {item.quantity}
+                                </Text>
                             </Text>
 
-                            <Text className="text-xs text-[#C7EAD5] uppercase">
-                                {item.reason}
-                            </Text>
-                        </View>
-
-                        {/* quantity */}
-                        <Text className="text-sm text-[#C7EAD5]">
-                            Quantity:{" "}
-                            <Text className="font-semibold">
-                                {item.quantity}
-                            </Text>
-                        </Text>
-
-                        {/* timeline */}
-                        <View className="gap-1">
-                            <Text className="text-xs text-[#C7EAD5] capitalize">
-                                {item.reason} date: {formatDate(item.created_at)}
-                            </Text>
-                            {/* <Text className="text-xs text-[#C7EAD5]">
+                            {/* timeline */}
+                            <View className="gap-1">
+                                <Text className="text-xs text-[#C7EAD5] capitalize">
+                                    {item.reason} date:{" "}
+                                    {formatDate(item.created_at)}
+                                </Text>
+                                {/* <Text className="text-xs text-[#C7EAD5]">
                                 Removed: {item.deletedAt}
                             </Text> */}
+                            </View>
                         </View>
+                    ))
+                ) : (
+                    <View className="flex-1 items-center justify-center mt-20">
+                        <Text className="text-[#114924] font-bold">
+                            No items yet
+                        </Text>
                     </View>
-                ))}
+                )}
             </ScrollView>
         </SafeAreaView>
     );
