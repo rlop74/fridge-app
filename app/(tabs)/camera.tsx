@@ -11,10 +11,19 @@ import {
     View,
 } from "react-native";
 
+// hooks
+import { useImagePreviewStore } from "../../hooks/useImagePreview";
+
+// api
+import { processImage } from "@/api/receipt";
+
 export default function Camera() {
     const [facing, setFacing] = useState<CameraType>("back");
     const [permission, requestPermission] = useCameraPermissions();
-    const [imagePreview, setImagePreview] = useState<string>("");
+    const imagePreview = useImagePreviewStore((state) => state.imagePreview);
+    const setImagePreview = useImagePreviewStore(
+        (state) => state.setImagePreview,
+    );
     const cameraRef = useRef(null);
 
     // Camera permissions are still loading.
@@ -42,6 +51,9 @@ export default function Camera() {
             console.log(photo.uri); // Path to the taken picture
 
             setImagePreview(photo.uri);
+
+            // process image on backend
+            processImage(photo.uri);
         }
     };
 
