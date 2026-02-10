@@ -18,13 +18,13 @@ import { FridgeItem } from "@/hooks/useFridgeItems";
 import { useFridgeStore } from "@/hooks/useFridgeItems";
 
 // api
-import { getFridgeItems } from "@/api/fridge";
-import { formatDate } from "@/services/format-date";
+import { getFridgeItems } from "@/services/fridge/repository";
+import { formatDate } from "@/utils/format-date";
 
 export default function Fridge() {
     const [search, setSearch] = useState("");
     const [modalVisible, setModalVisible] = useState(false);
-    const [pressedItem, setPressedItem] = useState<FridgeItem[]>([]);
+    const [pressedItem, setPressedItem] = useState<FridgeItem>();
     const fridgeItems = useFridgeStore((state) => state.fridgeItems);
     const setFridgeItems = useFridgeStore((state) => state.setFridgeItems);
 
@@ -32,7 +32,7 @@ export default function Fridge() {
 
     // apply search
     const lowerSearch: string = search.toLowerCase();
-    const filteredSearch = fridgeItems.filter((item) => {
+    const filteredSearch = fridgeItems?.filter((item) => {
         return (
             item.name.toLowerCase().includes(lowerSearch) ||
             item.quantity.toString().includes(lowerSearch) ||

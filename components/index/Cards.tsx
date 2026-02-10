@@ -6,6 +6,7 @@ export const Cards = () => {
         alert("View List has been pressed");
     };
 
+
     return (
         <View className="flex-1 gap-5">
             {/* big card */}
@@ -17,10 +18,10 @@ export const Cards = () => {
                             uri: "https://midwestcommunity.org/wp-content/uploads/2018/02/Groceries-ThinkstockPhotos-836782690.jpg",
                         }}
                     />
-                    <View className="bg-[#193221] z-index-5 rounded-xl p-4 gap-3 absolute bottom-0 w-full">
+                    <View className="bg-cardBg z-index-5 rounded-xl p-4 gap-3 absolute bottom-0 w-full">
                         <View className="flex flex-row items-center justify-between">
                             <View>
-                                <Text className="text-[#13ED5E] text-sm font-semibold">
+                                <Text className="text-heading text-sm font-semibold">
                                     RECENT ACTIVITY
                                 </Text>
                                 <Text className="text-white text-2xl font-bold">
@@ -28,7 +29,7 @@ export const Cards = () => {
                                 </Text>
                             </View>
                             <View className="p-1 rounded-md bg-green-700">
-                                <Text className="text-[#13ED5E]">
+                                <Text className="text-heading">
                                     RECEIPT SCANNED
                                 </Text>
                             </View>
@@ -45,7 +46,7 @@ export const Cards = () => {
                             </View>
                             <Pressable
                                 onPress={handleViewList}
-                                className="bg-[#13ED5E] p-2 rounded-lg"
+                                className='bg-buttonBg p-2 rounded-lg'
                             >
                                 <Text>View List</Text>
                             </Pressable>
