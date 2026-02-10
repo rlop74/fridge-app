@@ -15,7 +15,7 @@ import {
 import { useImagePreviewStore } from "../../hooks/useImagePreview";
 
 // api
-import { processImage } from "@/services/api/receipt";
+import { processImage } from "@/services/receipts/repository";
 
 export default function Camera() {
     const [facing, setFacing] = useState<CameraType>("back");

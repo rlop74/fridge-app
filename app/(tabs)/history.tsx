@@ -2,7 +2,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import { useState, useEffect } from "react";
 import { formatDate } from "@/utils/format-date";
-import { getUsedFridgeItems } from "../../services/api/fridge";
+import { getUsedFridgeItems } from "@/services/fridge/repository";
 import { useFridgeStore } from "../../hooks/useFridgeItems";
 
 interface item {

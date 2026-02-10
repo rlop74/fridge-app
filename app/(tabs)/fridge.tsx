@@ -18,7 +18,7 @@ import { FridgeItem } from "@/hooks/useFridgeItems";
 import { useFridgeStore } from "@/hooks/useFridgeItems";
 
 // api
-import { getFridgeItems } from "@/services/api/fridge";
+import { getFridgeItems } from "@/services/fridge/repository";
 import { formatDate } from "@/utils/format-date";
 
 export default function Fridge() {
