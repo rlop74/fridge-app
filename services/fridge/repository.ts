@@ -1,8 +1,8 @@
-import axios from "axios";
+import client from '../api/client'
 
 export const getFridgeItems = async () => {
     try {
-        const { data } = await axios.get("http://192.168.74.166:3000/fridge-items");
+        const { data } = await client.get("/fridge-items");
         return data;
     } catch (err) {
         console.error("Failed to get Fridge Items", err);
@@ -12,7 +12,7 @@ export const getFridgeItems = async () => {
 
 export const getUsedFridgeItems = async () => {
     try {
-        const { data } = await axios.get("http://192.168.74.166:3000/used-fridge-items");
+        const { data } = await client.get("/used-fridge-items");
         return data;
     } catch (err) {
         console.error("Failed to get Used Fridge Items: ", err);

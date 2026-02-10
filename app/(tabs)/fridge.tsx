@@ -18,8 +18,8 @@ import { FridgeItem } from "@/hooks/useFridgeItems";
 import { useFridgeStore } from "@/hooks/useFridgeItems";
 
 // api
-import { getFridgeItems } from "@/api/fridge";
-import { formatDate } from "@/services/format-date";
+import { getFridgeItems } from "@/services/api/fridge";
+import { formatDate } from "@/utils/format-date";
 
 export default function Fridge() {
     const [search, setSearch] = useState("");

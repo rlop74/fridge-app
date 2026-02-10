@@ -1,3 +1,5 @@
+const colors = require("./styles/colors")
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -9,7 +11,16 @@ module.exports = {
   ],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "",
+        secondary: "",
+        tertiary: "",
+        heading: colors.HEADING,
+        cardBg: colors.CARD_BG,
+        buttonBg: colors.BUTTON_BG,
+      }
+    },
   },
   plugins: [],
 };

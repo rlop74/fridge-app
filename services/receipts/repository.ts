@@ -1,4 +1,4 @@
-import axios from "axios";
+import client from '../api/client'
 
 // export const processImage = async (path: string) => {
 //     try {
@@ -18,11 +18,13 @@ export const processImage = async (uri: string) => {
         type: "image/jpeg",
     } as any);
 
-    await fetch("http://192.168.74.166:3000/scan-photo", {
+    const result = await fetch("http://192.168.74.166:3000/scan-photo", {
         method: "POST",
         headers: {
             "Content-Type": "multipart/form-data",
         },
         body: formData,
     });
+
+    return result;
 };
