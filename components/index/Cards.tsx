@@ -1,5 +1,5 @@
 import { View, Pressable, Text, Image } from "react-native";
-import { IconSymbol } from "../ui/icon-symbol";
+import { IconSymbol } from "../ui/iconSymbol";
 
 export const Cards = () => {
     const handleViewList = () => {
@@ -59,7 +59,7 @@ export const Cards = () => {
             <View className="flex-row gap-3">
                 {/* make below as a component??? */}
                 <View className="flex-1 border border-gray-500 rounded-lg p-3 gap-1 bg-[#193221]">
-                    <IconSymbol size={24} name="tray.fill" color="green" />
+                    <IconSymbol size={24} name="refrigerator.fill" color="green" />
                     <Text className="text-white">FRIDGE FULL</Text>
                     <Text className="text-2xl font-bold text-white">
                         78% Full

@@ -1,6 +1,6 @@
 // https://www.npmjs.com/package/react-native-logs
 
-import Config from "@/configs/Config";
+import Config from "@/configs/config";
 
 class Logger {
   filePath: string

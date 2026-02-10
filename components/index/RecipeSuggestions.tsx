@@ -1,5 +1,5 @@
 import { View, Text, Pressable, Image, ScrollView } from "react-native";
-import { IconSymbol } from "../ui/icon-symbol";
+import { IconSymbol } from "../ui/iconSymbol";
 
 export const RecipeSuggestions = () => {
     const handleSeeAll = () => {

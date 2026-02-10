@@ -1,4 +1,4 @@
-import { IconSymbol } from "@/components/ui/icon-symbol";
+import { IconSymbol } from "@/components/ui/iconSymbol";
 import { useEffect, useState } from "react";
 import {
     Pressable,

@@ -1,4 +1,4 @@
-import AppConfig from './AppConfig.json';
+import AppConfig from './appConfig.json';
 
 
 class Config {
