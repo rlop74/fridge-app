@@ -21,6 +21,9 @@ import { useFridgeStore } from "@/hooks/useFridgeItems";
 import { getFridgeItems } from "@/services/fridge/repository";
 import { formatDate } from "@/utils/format-date";
 
+// ui
+import { itemText } from "@/styles/ui";
+
 export default function Fridge() {
     const [search, setSearch] = useState("");
     const [modalVisible, setModalVisible] = useState(false);
@@ -63,7 +66,7 @@ export default function Fridge() {
             <View className="flex-row items-center justify-between px-4 py-3">
                 {/* left */}
                 <View className="flex-row items-center gap-3">
-                    <View className="h-11 w-11 rounded-xl bg-[#114924] justify-center items-center">
+                    <View className="h-11 w-11 rounded-xl bg-cardBg justify-center items-center">
                         <IconSymbol
                             size={24}
                             name="refrigerator.fill"
@@ -77,7 +80,7 @@ export default function Fridge() {
                 {/* camera */}
                 <Pressable
                     onPress={handleCamera}
-                    className="h-11 w-11 rounded-xl bg-[#14EC5C] justify-center items-center"
+                    className="h-11 w-11 rounded-xl bg-buttonBg justify-center items-center"
                 >
                     <IconSymbol
                         size={22}
@@ -97,8 +100,8 @@ export default function Fridge() {
 
                     <TextInput
                         placeholder="Search items"
-                        placeholderTextColor="gray"
-                        className="flex-1 text-base text-white"
+                        placeholderTextColor="black"
+                        className=""
                         value={search}
                         onChangeText={setSearch}
                     />
@@ -120,18 +123,18 @@ export default function Fridge() {
                                 {/* left: identity */}
                                 <View className="flex-row gap-3 items-center">
                                     {/* icon / placeholder */}
-                                    <View className="h-14 w-14 rounded-xl bg-[#102215] justify-center items-center">
-                                        <Text className="text-[#14EC5C] font-bold">
+                                    <View className="h-14 w-14 rounded-xl bg-cardBg justify-center items-center">
+                                        <Text className="font-bold">
                                             🍽️
                                         </Text>
                                     </View>
 
                                     {/* text */}
                                     <View className="gap-1">
-                                        <Text className="text-lg font-semibold capitalize">
+                                        <Text className={`${itemText.heading}`}>
                                             {item.name}
                                         </Text>
-                                        <Text className="text-sm text-[#102215]">
+                                        <Text className={`${itemText.subheading} text-[#102215]`}>
                                             Quantity: {item.quantity}
                                         </Text>
                                     </View>
@@ -139,7 +142,7 @@ export default function Fridge() {
 
                                 {/* right: metadata */}
                                 <View className="items-end">
-                                    <Text className="text-xs text-[#102215]">
+                                    <Text className={`${itemText.regular} text-[#102215]`}>
                                         {formatDate(item.created_at)}
                                     </Text>
                                 </View>
@@ -148,7 +151,7 @@ export default function Fridge() {
                     })
                 ) : (
                     <View className="flex-1 items-center justify-center mt-20">
-                        <Text className="text-[#114924] font-bold">
+                        <Text className="text-cardBg font-bold">
                             No items yet
                         </Text>
                     </View>
@@ -161,7 +164,7 @@ export default function Fridge() {
                     {/* overlay */}
                     <View className="flex-1 bg-black/60 justify-center items-center px-6">
                         {/* modal surface */}
-                        <View className="w-full bg-[#114924] rounded-2xl p-6 gap-6">
+                        <View className="w-full bg-cardBg rounded-2xl p-6 gap-6">
                             {/* header */}
                             <View className="items-center gap-1">
                                 <Text className="text-2xl font-bold text-white capitalize">

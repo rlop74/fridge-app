@@ -1,6 +1,9 @@
 import { View, Text, Pressable, Image, ScrollView } from "react-native";
 import { IconSymbol } from "../ui/iconSymbol";
 
+// ui
+import { cardBase } from "@/styles/ui";
+
 export const RecipeSuggestions = () => {
     const handleSeeAll = () => {
         alert("See All has been pressed");
@@ -41,7 +44,7 @@ export const RecipeSuggestions = () => {
                     return (
                         <Pressable
                             key={recipe.id}
-                            className="bg-[#193221] rounded-lg"
+                            className={`${cardBase}`}
                         >
                             <View className="relative">
                                 <Image
@@ -54,7 +57,7 @@ export const RecipeSuggestions = () => {
                                     }}
                                     source={{ uri: recipe.img }}
                                 />
-                                <Text className="absolute bottom-0 bg-[#193221] p-4 rounded-tr-lg rounded-bl-lg text-white font-bold capitalize">
+                                <Text className="absolute bottom-0 bg-cardBg p-4 rounded-tr-lg rounded-bl-lg text-white font-bold capitalize">
                                     {recipe.name}
                                 </Text>
                                 {/* <IconSymbol

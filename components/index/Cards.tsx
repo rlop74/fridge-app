@@ -1,6 +1,9 @@
 import { View, Pressable, Text, Image } from "react-native";
 import { IconSymbol } from "../ui/iconSymbol";
 
+// ui
+import { statCard, cardText } from "@/styles/ui";
+
 export const Cards = () => {
     const handleViewList = () => {
         alert("View List has been pressed");
@@ -10,21 +13,21 @@ export const Cards = () => {
     return (
         <View className="flex-1 gap-5">
             {/* big card */}
-            <View className="border-2 border-green-800 flex-1 rounded-xl flex justify-between overflow-hidden">
-                <View className="flex h-80 w-full justify-center items-center relative">
+            <View className="flex-1 rounded-xl flex justify-between overflow-hidden">
+                <View className="flex h-80 w-full justify-center items-center relative border-2 border-green-800">
                     <Image
                         className="h-full w-full"
                         source={{
                             uri: "https://midwestcommunity.org/wp-content/uploads/2018/02/Groceries-ThinkstockPhotos-836782690.jpg",
                         }}
                     />
-                    <View className="bg-cardBg z-index-5 rounded-xl p-4 gap-3 absolute bottom-0 w-full">
+                    <View className={`${statCard} gap-4 absolute bottom-0 w-full`}>
                         <View className="flex flex-row items-center justify-between">
                             <View>
-                                <Text className="text-heading text-sm font-semibold">
+                                <Text className={`${cardText.subheading} text-heading`}>
                                     RECENT ACTIVITY
                                 </Text>
-                                <Text className="text-white text-2xl font-bold">
+                                <Text className={`${cardText.heading}`}>
                                     Last Grocery Trip
                                 </Text>
                             </View>
@@ -37,10 +40,10 @@ export const Cards = () => {
 
                         <View className="flex-row justify-between">
                             <View>
-                                <Text className="text-white">
+                                <Text className={`${cardText.regular}`}>
                                     Oct 24th • 32 items added
                                 </Text>
-                                <Text className="text-white">
+                                <Text className={`${cardText.regular}`}>
                                     Top categories: Produce, Dairy, Proteins
                                 </Text>
                             </View>
@@ -58,21 +61,21 @@ export const Cards = () => {
             {/* 2 small cards */}
             <View className="flex-row gap-3">
                 {/* make below as a component??? */}
-                <View className="flex-1 border border-gray-500 rounded-lg p-3 gap-1 bg-[#193221]">
+                <View className={`${statCard} gap-1`}>
                     <IconSymbol size={24} name="refrigerator.fill" color="green" />
-                    <Text className="text-white">FRIDGE FULL</Text>
-                    <Text className="text-2xl font-bold text-white">
+                    <Text className={`${cardText.regular}`}>FRIDGE FULL</Text>
+                    <Text className={`${cardText.heading}`}>
                         78% Full
                     </Text>
                 </View>
-                <View className="flex-1 border border-gray-500 rounded-lg p-3 gap-1 bg-[#193221]">
-                    <IconSymbol
+                <View className={`${statCard} gap-1`}>
+                    <IconSymbol 
                         size={24}
                         name="exclamationmark.triangle.fill"
                         color="orange"
                     />
-                    <Text className="text-white">NEAR EXPIRY</Text>
-                    <Text className="text-2xl font-bold text-white">
+                    <Text className={`${cardText.regular}`}>NEAR EXPIRY</Text>
+                    <Text className={`${cardText.heading}`}>
                         12 Items
                     </Text>
                 </View>
