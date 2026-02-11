@@ -3,7 +3,12 @@ import { ScrollView, Text, TextInput, View } from "react-native";
 import { useState, useEffect } from "react";
 import { formatDate } from "@/utils/format-date";
 import { getUsedFridgeItems } from "@/services/fridge/repository";
+
+// hooks
 import { useFridgeStore } from "../../hooks/useFridgeItems";
+
+// ui
+import { itemText } from "@/styles/ui"
 
 interface item {
     id: number;
@@ -69,21 +74,21 @@ export default function History() {
                     filteredSearch.map((item) => (
                         <View
                             key={item.id}
-                            className="mb-3 rounded-2xl bg-[#114924] p-4 gap-3"
+                            className="mb-3 rounded-2xl bg-cardBg p-4 gap-2"
                         >
                             {/* top: identity */}
                             <View className="flex-row justify-between items-center">
-                                <Text className="text-lg font-semibold capitalize text-white">
+                                <Text className={`${itemText.heading} text-white`}>
                                     {item.name}
                                 </Text>
 
-                                <Text className="text-xs text-[#C7EAD5] uppercase">
+                                <Text className={`${itemText.regular} text-[#C7EAD5] uppercase`}>
                                     {item.reason}
                                 </Text>
                             </View>
 
                             {/* quantity */}
-                            <Text className="text-sm text-[#C7EAD5]">
+                            <Text className={`${itemText.subheading} text-sm text-[#C7EAD5]`}>
                                 Quantity:{" "}
                                 <Text className="font-semibold">
                                     {item.quantity}
@@ -92,7 +97,7 @@ export default function History() {
 
                             {/* timeline */}
                             <View className="gap-1">
-                                <Text className="text-xs text-[#C7EAD5] capitalize">
+                                <Text className={`${itemText.regular} text-[#C7EAD5] capitalize`}>
                                     {item.reason} date:{" "}
                                     {formatDate(item.created_at)}
                                 </Text>

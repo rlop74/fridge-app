@@ -7,10 +7,10 @@ import { SymbolWeight, SymbolViewProps } from "expo-symbols";
 
 // --- Types ---
 
-type IconMapping = Record<
-    SymbolViewProps["name"],
-    ComponentProps<typeof MaterialIcons>["name"]
->;
+// type IconMapping = Record<
+//     SymbolViewProps["name"],
+//     ComponentProps<typeof MaterialIcons>["name"]
+// >;
 type IconSymbolName = keyof typeof MAPPING;
 
 // --- Mappings ---
@@ -23,22 +23,19 @@ type IconSymbolName = keyof typeof MAPPING;
  */
 const MAPPING = {
     "house.fill": "home",
-    "paperplane.fill": "send",
-    "chevron.left.forwardslash.chevron.right": "code",
-    "chevron.right": "chevron-right",
     "archivebox.fill": "kitchen",
-    "camera.fill": "camera",
+    "camera.fill": "camera-alt",
     "magnifyingglass": "search",
-    "bell.fill": "battery-charging-full",
+    "bell.fill": "notifications",
     "exclamationmark.triangle.fill": "warning",
-    "refrigerator.fill": "archive",
-    "camera.viewfinder": "camera",
+    "refrigerator.fill": "kitchen",
+    "camera.viewfinder": "camera-alt",
     "camera.circle.fill": "camera",
-    "camera.rotate.fill": "rotate-right",
-    "xmark": "xmark",
-    // "heart.fill": "heart-broken",
-    "clock.fill": "lock-clock",
-} as IconMapping;
+    "camera.rotate.fill": "cameraswitch",
+    "clock.fill": "delete",
+    "xmark": "close"
+// } as IconMapping;
+} as const;
 
 /**
  * An icon component that uses native SF Symbols on iOS, and Material Icons on Android and web.

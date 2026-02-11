@@ -5,7 +5,7 @@ import { Text, View, Image, Pressable } from "react-native";
 // Hooks
 
 // icons
-import { IconSymbol } from "@/components/ui/icon-symbol";
+import { IconSymbol } from "@/components/ui/iconSymbol";
 import { useState } from "react";
 
 export const Header = () => {

@@ -1,4 +1,4 @@
-import { IconSymbol } from "@/components/ui/icon-symbol";
+import { IconSymbol } from "@/components/ui/iconSymbol";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { useState, useRef } from "react";
 import {
@@ -24,7 +24,7 @@ export default function Camera() {
     const setImagePreview = useImagePreviewStore(
         (state) => state.setImagePreview,
     );
-    const cameraRef = useRef(null);
+    const cameraRef = useRef<CameraView | null>(null);
 
     // Camera permissions are still loading.
     if (!permission) return <View />;

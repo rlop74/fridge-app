@@ -4,9 +4,11 @@ import {
     DefaultTheme,
     ThemeProvider as NavigationThemeProvider,
 } from "@react-navigation/native";
+import { View } from "react-native";
 
-import { IconSymbol } from "../../components/ui/icon-symbol";
-import { useColorScheme } from "@/hooks/use-color-scheme";
+import { IconSymbol } from "../../components/ui/iconSymbol";
+// import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useColorScheme } from "react-native";
 
 export default function TabLayout() {
     // --- Hooks ---
