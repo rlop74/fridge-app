@@ -39,7 +39,7 @@ export default function Fridge() {
         return (
             item.name.toLowerCase().includes(lowerSearch) ||
             item.quantity.toString().includes(lowerSearch) ||
-            item.created_at.includes(lowerSearch)
+            item.createdAt.includes(lowerSearch)
         );
     });
 
@@ -143,7 +143,7 @@ export default function Fridge() {
                                 {/* right: metadata */}
                                 <View className="items-end">
                                     <Text className={`${itemText.regular} text-[#102215]`}>
-                                        {formatDate(item.created_at)}
+                                        {formatDate(item.createdAt)}
                                     </Text>
                                 </View>
                             </Pressable>
@@ -173,7 +173,7 @@ export default function Fridge() {
                                 <Text className="text-sm text-[#C7EAD5]">
                                     Bought on{" "}
                                     {/* {formatDate(pressedItem.created_at)} */}
-                                    {pressedItem.created_at}
+                                    {pressedItem.createdAt}
                                 </Text>
                             </View>
 

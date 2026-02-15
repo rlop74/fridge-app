@@ -4,14 +4,14 @@ export interface FridgeItem {
     id: number;
     name: string;
     quantity: number;
-    created_at: string;
+    createdAt: string;
 }
 
 export interface UsedFridgeItem {
     id: number;
     name: string;
     quantity: number;
-    created_at: string;
+    createdAt: string;
     reason: string;
 }
 
