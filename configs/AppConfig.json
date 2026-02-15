@@ -1,7 +1,7 @@
 {
   "SERVER_URL": {
     "DEV": "http://localhost:3333",
-    "STAGING": "http://192.168.74.166:3000",
+    "STAGING": "http://192.168.74.166:3000/api/v1",
     "PROD": ""
   },
   "SERVER_MODE": "STAGING",

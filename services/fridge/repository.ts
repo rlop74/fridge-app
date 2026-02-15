@@ -1,8 +1,8 @@
-import client from '../api/client'
+import client from "../api/client";
 
 export const getFridgeItems = async () => {
     try {
-        const { data } = await client.get("/fridge-items");
+        const { data } = await client.get("/items");
         return data;
     } catch (err) {
         console.error("Failed to get Fridge Items", err);
