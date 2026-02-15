@@ -50,8 +50,8 @@ export default function Fridge() {
     useEffect(() => {
         const fetchFridgeItems = async () => {
             try {
-                const items = await getFridgeItems();
-                setFridgeItems(items);
+                const { items: fridgeItems } = await getFridgeItems();
+                setFridgeItems(fridgeItems);
             } catch (err) {
                 console.error("Failed to get Fridge Items: ", err);
                 alert("Something went wrong");
@@ -108,7 +108,7 @@ export default function Fridge() {
                 </View>
             </View>
 
-            <ScrollView>
+            <ScrollView contentContainerClassName="flex-grow">
                 {filteredSearch && filteredSearch.length > 0 ? (
                     filteredSearch.map((item) => {
                         return (
