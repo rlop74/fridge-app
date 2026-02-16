@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { FridgeStore } from "@/types/fridgeItem";
+import { FridgeStore } from "@/types/fridgeTypes";
 
 export const useFridgeStore = create<FridgeStore>((set) => ({
     fridgeItems: [],
@@ -16,5 +16,11 @@ export const useFridgeStore = create<FridgeStore>((set) => ({
     addFridgeItem: (item) =>
         set((state) => ({
             fridgeItems: [...state.fridgeItems, item],
+        })),
+    deleteFridgeItem: (item) =>
+        set((state) => ({
+            fridgeItems: state.fridgeItems.filter(
+                (fridgeItem) => fridgeItem.id !== item.id,
+            ),
         })),
 }));

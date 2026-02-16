@@ -1,7 +1,7 @@
 import client from "../api/client";
 
 // types
-import { FridgeItem } from "@/types/fridgeItem"
+import { FridgeItem } from "@/types/fridgeTypes";
 
 export const getFridgeItems = async () => {
     try {
@@ -30,4 +30,13 @@ export const addFridgeItems = async (newItem: FridgeItem) => {
         console.error("Failed to add new item: ", err);
         alert("Something went wrong");
     }
-}
+};
+
+export const deleteFridgeItemBackend = async (pressedItem: FridgeItem) => {
+    try {
+        await client.delete(`/items/${pressedItem.id}`);
+    } catch (err) {
+        console.error("Failed to delete item: ", err);
+        alert("Something went wrong");
+    }
+};

@@ -9,7 +9,7 @@ import { useFridgeStore } from "@/hooks/useFridgeItems";
 import { modalStyle } from "@/styles/ui";
 
 // types
-import { FridgeItem } from "@/types/fridgeItem"
+import { FridgeItem } from "@/types/fridgeTypes"
 
 // api
 import { addFridgeItems } from "@/services/fridge/repository"

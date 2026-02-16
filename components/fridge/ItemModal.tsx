@@ -2,13 +2,17 @@ import { Modal, View, Text, Pressable } from "react-native";
 
 // hooks
 import { useModal } from "@/hooks/useModal";
-import { FridgeItem } from "@/types/fridgeItem";
+import { FridgeItem } from "@/types/fridgeTypes";
+import { useFridgeStore } from "@/hooks/useFridgeItems";
 
 // style
 import { modalStyle } from "@/styles/ui";
 
 // utils
 import { formatDate } from "@/utils/formatDate";
+
+// api
+import { deleteFridgeItemBackend } from "@/services/fridge/repository";
 
 interface Props {
     pressedItem: FridgeItem;
@@ -18,6 +22,7 @@ export const ItemModal = ({ pressedItem }: Props) => {
     const { itemModalVisible, setItemModalVisible } = useModal(
         (state) => state,
     );
+    const { deleteFridgeItem } = useFridgeStore((state) => state);
 
     return (
         <Modal transparent visible={itemModalVisible} animationType="fade">
@@ -31,8 +36,7 @@ export const ItemModal = ({ pressedItem }: Props) => {
                             {pressedItem.name}
                         </Text>
                         <Text className="text-sm text-[#C7EAD5]">
-                            Bought {" "}
-                            {/* {pressedItem.createdAt?.toString()} */}
+                            Bought {/* {pressedItem.createdAt?.toString()} */}
                             {formatDate(
                                 pressedItem.createdAt?.toString() || "",
                             ).toLowerCase()}
@@ -63,12 +67,25 @@ export const ItemModal = ({ pressedItem }: Props) => {
                         {/* destructive */}
                         <Pressable className="flex-1">
                             <Text
-                                className={`${modalStyle.button} bg-[#8B2C2C]`}
+                                className={`${modalStyle.button} bg-[#FFB020] !text-black`}
                             >
                                 Throw away
                             </Text>
                         </Pressable>
                     </View>
+
+                    {/* delete don't record */}
+                    <Pressable
+                        onPress={() => {
+                            setItemModalVisible(false);
+                            deleteFridgeItem(pressedItem); // delete from frontend ui
+                            deleteFridgeItemBackend(pressedItem);
+                        }}
+                    >
+                        <Text className={`${modalStyle.button} bg-[#8B2C2C]`}>
+                            Delete Permanently
+                        </Text>
+                    </Pressable>
 
                     {/* cancel */}
                     <Pressable onPress={() => setItemModalVisible(false)}>

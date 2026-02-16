@@ -16,6 +16,6 @@ export const modalStyle = {
     heading: "text-2xl font-bold text-white capitalize",
     subheading: "text-white",
     regular: "text-white",
-    button: "rounded-full py-3 text-white font-bold text-center",
+    button: "rounded-xl py-3 text-white font-bold text-center text-base",
     input: "border p-2 rounded-lg bg-white"
 }

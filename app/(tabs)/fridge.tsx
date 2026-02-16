@@ -12,7 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // Constants & Types
-import { FridgeItem } from "@/types/fridgeItem";
+import { FridgeItem } from "@/types/fridgeTypes";
 
 // Hooks
 import { useFridgeStore } from "@/hooks/useFridgeItems";

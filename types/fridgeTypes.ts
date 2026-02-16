@@ -19,4 +19,5 @@ export type FridgeStore = {
     setFridgeItems: (items: FridgeItem[]) => void;
     setUsedFridgeItems: (items: UsedFridgeItem[]) => void;
     addFridgeItem: (item: FridgeItem) => void;
+    deleteFridgeItem: (item: FridgeItem) => void;
 };
