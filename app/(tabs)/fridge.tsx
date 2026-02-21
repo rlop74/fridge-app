@@ -12,21 +12,31 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // Constants & Types
-import { FridgeItem } from "@/hooks/useFridgeItems";
+import { FridgeItem } from "@/types/fridgeTypes";
 
 // Hooks
 import { useFridgeStore } from "@/hooks/useFridgeItems";
+import { useModal } from "@/hooks/useModal";
 
 // api
 import { getFridgeItems } from "@/services/fridge/repository";
-import { formatDate } from "@/utils/format-date";
+import { formatDate } from "@/utils/formatDate";
 
-// ui
+// styles and components
 import { itemText } from "@/styles/ui";
+import { ItemModal } from "@/components/fridge/ItemModal";
+import { AddItemModal } from "@/components/fridge/AddItemModal";
+import { Screen } from "@/app/theme/Screen";
+import { ThemedText } from "@/app/theme/ThemedText";
 
 export default function Fridge() {
     const [search, setSearch] = useState("");
-    const [modalVisible, setModalVisible] = useState(false);
+    const {
+        itemModalVisible,
+        setItemModalVisible,
+        addItemModalVisible,
+        setAddItemModalVisible,
+    } = useModal((state) => state);
     const [pressedItem, setPressedItem] = useState<FridgeItem>();
     const fridgeItems = useFridgeStore((state) => state.fridgeItems);
     const setFridgeItems = useFridgeStore((state) => state.setFridgeItems);
@@ -39,19 +49,15 @@ export default function Fridge() {
         return (
             item.name.toLowerCase().includes(lowerSearch) ||
             item.quantity.toString().includes(lowerSearch) ||
-            item.createdAt.includes(lowerSearch)
+            item.createdAt?.toString().includes(lowerSearch)
         );
     });
-
-    const handleCamera = () => {
-        alert("Camera has been pressed");
-    };
 
     useEffect(() => {
         const fetchFridgeItems = async () => {
             try {
-                const items = await getFridgeItems();
-                setFridgeItems(items);
+                const { items: fridgeItems } = await getFridgeItems();
+                setFridgeItems(fridgeItems);
             } catch (err) {
                 console.error("Failed to get Fridge Items: ", err);
                 alert("Something went wrong");
@@ -62,7 +68,8 @@ export default function Fridge() {
     }, []);
 
     return (
-        <SafeAreaView className={`flex-1 transition-colors duration-300 gap-1`}>
+        // <SafeAreaView className={`flex-1 transition-colors duration-300 gap-1`}>
+        <Screen>
             <View className="flex-row items-center justify-between px-4 py-3">
                 {/* left */}
                 <View className="flex-row items-center gap-3">
@@ -74,20 +81,22 @@ export default function Fridge() {
                         />
                     </View>
 
-                    <Text className="text-2xl font-bold">Fridge</Text>
+                    <ThemedText className="text-2xl font-bold">Fridge</ThemedText>
                 </View>
 
-                {/* camera */}
+                {/* add item button */}
                 <Pressable
-                    onPress={handleCamera}
                     className="h-11 w-11 rounded-xl bg-buttonBg justify-center items-center"
+                    onPress={() => setAddItemModalVisible(!addItemModalVisible)}
                 >
                     <IconSymbol
                         size={22}
-                        name="camera.viewfinder"
+                        name="cart.fill.badge.plus"
                         color="#102215"
                     />
                 </Pressable>
+
+                {addItemModalVisible && <AddItemModal />}
             </View>
             <View className="mx-4 mb-3">
                 <View className="relative flex-row items-center rounded-2xl px-4 py-3 border border-gray-500">
@@ -100,7 +109,6 @@ export default function Fridge() {
 
                     <TextInput
                         placeholder="Search items"
-                        placeholderTextColor="black"
                         className=""
                         value={search}
                         onChangeText={setSearch}
@@ -108,15 +116,15 @@ export default function Fridge() {
                 </View>
             </View>
 
-            <ScrollView>
+            <ScrollView contentContainerClassName="flex-grow">
                 {filteredSearch && filteredSearch.length > 0 ? (
                     filteredSearch.map((item) => {
                         return (
                             <Pressable
-                                key={item.id}
+                                key={item.id || item.createdAt?.toString()}
                                 onPress={() => {
                                     setPressedItem(item);
-                                    setModalVisible(true);
+                                    setItemModalVisible(true);
                                 }}
                                 className="mx-3 mb-3 rounded-2xl p-4 flex-row items-center justify-between border-b border-gray-300"
                             >
@@ -124,96 +132,49 @@ export default function Fridge() {
                                 <View className="flex-row gap-3 items-center">
                                     {/* icon / placeholder */}
                                     <View className="h-14 w-14 rounded-xl bg-cardBg justify-center items-center">
-                                        <Text className="font-bold">
-                                            🍽️
-                                        </Text>
+                                        <Text className="font-bold">🍽️</Text>
                                     </View>
 
                                     {/* text */}
                                     <View className="gap-1">
-                                        <Text className={`${itemText.heading}`}>
+                                        <ThemedText
+                                            className={`${itemText.heading}`}
+                                        >
                                             {item.name}
-                                        </Text>
-                                        <Text className={`${itemText.subheading} text-[#102215]`}>
+                                        </ThemedText>
+                                        <ThemedText
+                                            className={`${itemText.subheading} text-[#102215]`}
+                                        >
                                             Quantity: {item.quantity}
-                                        </Text>
+                                        </ThemedText>
                                     </View>
                                 </View>
 
                                 {/* right: metadata */}
                                 <View className="items-end">
-                                    <Text className={`${itemText.regular} text-[#102215]`}>
-                                        {formatDate(item.createdAt)}
-                                    </Text>
+                                    <ThemedText
+                                        className={`${itemText.regular} text-[#102215]`}
+                                    >
+                                        {formatDate(
+                                            item.createdAt?.toString() || "",
+                                        )}
+                                    </ThemedText>
                                 </View>
                             </Pressable>
                         );
                     })
                 ) : (
                     <View className="flex-1 items-center justify-center mt-20">
-                        <Text className="text-cardBg font-bold">
+                        <ThemedText className="text-cardBg font-bold">
                             No items yet
-                        </Text>
+                        </ThemedText>
                     </View>
                 )}
             </ScrollView>
 
             {/* modal */}
-            {pressedItem && (
-                <Modal transparent visible={modalVisible} animationType="fade">
-                    {/* overlay */}
-                    <View className="flex-1 bg-black/60 justify-center items-center px-6">
-                        {/* modal surface */}
-                        <View className="w-full bg-cardBg rounded-2xl p-6 gap-6">
-                            {/* header */}
-                            <View className="items-center gap-1">
-                                <Text className="text-2xl font-bold text-white capitalize">
-                                    {pressedItem.name}
-                                </Text>
-                                <Text className="text-sm text-[#C7EAD5]">
-                                    Bought on{" "}
-                                    {/* {formatDate(pressedItem.created_at)} */}
-                                    {pressedItem.createdAt}
-                                </Text>
-                            </View>
-
-                            {/* details */}
-                            <View className="items-center">
-                                <Text className="text-white text-lg">
-                                    Quantity:{" "}
-                                    <Text className="font-bold">
-                                        {pressedItem.quantity}
-                                    </Text>
-                                </Text>
-                            </View>
-
-                            {/* actions */}
-                            <View className="flex-row gap-3">
-                                {/* primary */}
-                                <Pressable className="flex-1 rounded-full bg-[#14EC5C] py-3">
-                                    <Text className="text-black font-bold text-center">
-                                        Consume
-                                    </Text>
-                                </Pressable>
-
-                                {/* destructive */}
-                                <Pressable className="flex-1 rounded-full bg-[#8B2C2C] py-3">
-                                    <Text className="text-white font-bold text-center">
-                                        Throw away
-                                    </Text>
-                                </Pressable>
-                            </View>
-
-                            {/* cancel */}
-                            <Pressable onPress={() => setModalVisible(false)}>
-                                <Text className="text-center text-[#C7EAD5] font-semibold">
-                                    Cancel
-                                </Text>
-                            </Pressable>
-                        </View>
-                    </View>
-                </Modal>
-            )}
-        </SafeAreaView>
+            {pressedItem && <ItemModal pressedItem={pressedItem} />}
+            {/* </SafeAreaView> */}
+        </Screen>
     );
 }

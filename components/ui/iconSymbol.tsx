@@ -33,7 +33,8 @@ const MAPPING = {
     "camera.circle.fill": "camera",
     "camera.rotate.fill": "cameraswitch",
     "clock.fill": "delete",
-    "xmark": "close"
+    "xmark": "close",
+    "cart.fill.badge.plus": "post-add" // "add-shopping-cart"
 // } as IconMapping;
 } as const;
 

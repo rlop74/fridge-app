@@ -13,17 +13,17 @@ export const RecipeSuggestions = () => {
         {
             id: 1,
             name: "adobo",
-            img: "https://midwestcommunity.org/wp-content/uploads/2018/02/Groceries-ThinkstockPhotos-836782690.jpg",
+            img: "https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_16:9/k%2FPhoto%2FRecipes%2F2024-04-filipino-adobo%2Ffilipino-adobo-426",
         },
         {
             id: 2,
             name: "sisig",
-            img: "https://midwestcommunity.org/wp-content/uploads/2018/02/Groceries-ThinkstockPhotos-836782690.jpg",
+            img: "https://i0.wp.com/www.Iankewks.com/wp-content/uploads/2023/02/IMG_7014.jpg?resize=800%2C1054&ssl=1",
         },
         {
             id: 3,
             name: "beef steak",
-            img: "https://midwestcommunity.org/wp-content/uploads/2018/02/Groceries-ThinkstockPhotos-836782690.jpg",
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQit_dekQRDnDVxNOA4urGUPG0A3qWyEUi_kYjj_7142NPQyNlTeWcaw7MFuRga5vkG8ZdSc-SCbtuVGrFXqsWMDT-HKe105isVZKxZ_2Kl&s=10",
         },
     ];
 
@@ -42,10 +42,7 @@ export const RecipeSuggestions = () => {
             <ScrollView horizontal contentContainerStyle={{ gap: 16 }}>
                 {recipes.map((recipe) => {
                     return (
-                        <Pressable
-                            key={recipe.id}
-                            className={`${cardBase}`}
-                        >
+                        <Pressable key={recipe.id} className={`${cardBase}`}>
                             <View className="relative">
                                 <Image
                                     // className="h-48 w-48"

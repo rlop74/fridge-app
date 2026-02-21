@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import { useState, useEffect } from "react";
-import { formatDate } from "@/utils/format-date";
+import { formatDate } from "@/utils/formatDate";
 import { getUsedFridgeItems } from "@/services/fridge/repository";
 
 // hooks

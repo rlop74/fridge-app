@@ -10,3 +10,12 @@ export const itemText = {
     subheading: "text-sm",
     regular: "text-xs",
 };
+export const modalStyle = {
+    screen: "flex-1 bg-black/60 justify-center items-center",
+    modal: "w-full bg-cardBg rounded-2xl p-4 gap-3",
+    heading: "text-2xl font-bold text-white capitalize",
+    subheading: "text-white",
+    regular: "text-white",
+    button: "rounded-xl py-3 text-white font-bold text-center text-base",
+    input: "border p-2 rounded-lg bg-white"
+}
