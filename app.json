@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "fridge-app",
-    "slug": "potatodoro",
+    "name": "Fridgely",
+    "slug": "Fridgely",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/1.png",
-    "scheme": "potate",
+    "scheme": "fridgely",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

@@ -11,8 +11,8 @@ export const itemText = {
     regular: "text-xs",
 };
 export const modalStyle = {
-    screen: "flex-1 bg-black/60 justify-center items-center px-6",
-    modal: "w-full bg-cardBg rounded-2xl p-6 gap-3",
+    screen: "flex-1 bg-black/60 justify-center items-center",
+    modal: "w-full bg-cardBg rounded-2xl p-4 gap-3",
     heading: "text-2xl font-bold text-white capitalize",
     subheading: "text-white",
     regular: "text-white",

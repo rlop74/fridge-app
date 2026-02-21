@@ -25,7 +25,7 @@ export const ItemModal = ({ pressedItem }: Props) => {
     const { deleteFridgeItem } = useFridgeStore((state) => state);
 
     return (
-        <Modal transparent visible={itemModalVisible} animationType="fade">
+        <Modal transparent visible={itemModalVisible} animationType="slide" >
             {/* overlay */}
             <View className={`${modalStyle.screen}`}>
                 {/* modal surface */}
@@ -89,7 +89,7 @@ export const ItemModal = ({ pressedItem }: Props) => {
 
                     {/* cancel */}
                     <Pressable onPress={() => setItemModalVisible(false)}>
-                        <Text className="text-center text-[#C7EAD5] font-semibold">
+                        <Text className={`${modalStyle.button} bg-cardBg !text-[#C7EAD5]`}>
                             Cancel
                         </Text>
                     </Pressable>

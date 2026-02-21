@@ -26,6 +26,8 @@ import { formatDate } from "@/utils/formatDate";
 import { itemText } from "@/styles/ui";
 import { ItemModal } from "@/components/fridge/ItemModal";
 import { AddItemModal } from "@/components/fridge/AddItemModal";
+import { Screen } from "@/app/theme/Screen";
+import { ThemedText } from "@/app/theme/ThemedText";
 
 export default function Fridge() {
     const [search, setSearch] = useState("");
@@ -66,7 +68,8 @@ export default function Fridge() {
     }, []);
 
     return (
-        <SafeAreaView className={`flex-1 transition-colors duration-300 gap-1`}>
+        // <SafeAreaView className={`flex-1 transition-colors duration-300 gap-1`}>
+        <Screen>
             <View className="flex-row items-center justify-between px-4 py-3">
                 {/* left */}
                 <View className="flex-row items-center gap-3">
@@ -78,7 +81,7 @@ export default function Fridge() {
                         />
                     </View>
 
-                    <Text className="text-2xl font-bold">Fridge</Text>
+                    <ThemedText className="text-2xl font-bold">Fridge</ThemedText>
                 </View>
 
                 {/* add item button */}
@@ -106,7 +109,6 @@ export default function Fridge() {
 
                     <TextInput
                         placeholder="Search items"
-                        placeholderTextColor="black"
                         className=""
                         value={search}
                         onChangeText={setSearch}
@@ -135,41 +137,44 @@ export default function Fridge() {
 
                                     {/* text */}
                                     <View className="gap-1">
-                                        <Text className={`${itemText.heading}`}>
+                                        <ThemedText
+                                            className={`${itemText.heading}`}
+                                        >
                                             {item.name}
-                                        </Text>
-                                        <Text
+                                        </ThemedText>
+                                        <ThemedText
                                             className={`${itemText.subheading} text-[#102215]`}
                                         >
                                             Quantity: {item.quantity}
-                                        </Text>
+                                        </ThemedText>
                                     </View>
                                 </View>
 
                                 {/* right: metadata */}
                                 <View className="items-end">
-                                    <Text
+                                    <ThemedText
                                         className={`${itemText.regular} text-[#102215]`}
                                     >
                                         {formatDate(
                                             item.createdAt?.toString() || "",
                                         )}
-                                    </Text>
+                                    </ThemedText>
                                 </View>
                             </Pressable>
                         );
                     })
                 ) : (
                     <View className="flex-1 items-center justify-center mt-20">
-                        <Text className="text-cardBg font-bold">
+                        <ThemedText className="text-cardBg font-bold">
                             No items yet
-                        </Text>
+                        </ThemedText>
                     </View>
                 )}
             </ScrollView>
 
             {/* modal */}
             {pressedItem && <ItemModal pressedItem={pressedItem} />}
-        </SafeAreaView>
+            {/* </SafeAreaView> */}
+        </Screen>
     );
 }
