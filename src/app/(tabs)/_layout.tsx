@@ -3,7 +3,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 // constants
 import { GlobalStyles } from '@/constants/styles';
-import { IconButton } from '@/ui/IconButton';
+import { IconButton } from '@/components/IconButton';
 
 export default function TabLayout() {
   return (

@@ -25,7 +25,7 @@ import { getItems } from '@/services/api/items';
 
 // styles and components
 import { Header } from '@/components/home/Header';
-import { IconButton } from '@/ui/IconButton';
+import { IconButton } from '@/components/IconButton';
 import { ItemModal } from '@/components/fridge/ItemModal';
 import { AddItemModal } from '@/components/fridge/AddItemModal';
 import { GlobalStyles } from '@/constants/styles';

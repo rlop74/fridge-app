@@ -1,7 +1,7 @@
 import { Text, View, Image, Pressable, StyleSheet } from 'react-native';
 
 // icons
-import { IconButton } from '@/ui/IconButton';
+import { IconButton } from '@/components/IconButton';
 import { useState } from 'react';
 
 // style

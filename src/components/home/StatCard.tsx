@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { IconButton } from '@/ui/IconButton';
+import { IconButton } from '@/components/IconButton';
 import { GlobalStyles } from '@/constants/styles';
 
 export const StatCard = ({
