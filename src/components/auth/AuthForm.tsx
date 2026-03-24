@@ -5,16 +5,23 @@ import {
   Pressable,
   StyleSheet,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { useState } from 'react';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 
-type Props = {
-  mode: 'login' | 'signup';
-  onSubmit: (data: { name?: string; email: string; password: string }) => void;
-};
+// components
+import { IconButton } from '@/components/IconButton';
+import ScreenWrapper from '@/components/ScreenWrapper';
+import Typo from '@/components/Typo';
+import CustomButton from '@/components/CustomButton';
 
-export const AuthForm = ({ mode, onSubmit }: Props) => {
+import { colors } from '@/constants/colors';
+import { verticalScale } from '@/utils/styling';
+import { AuthFormProps } from '@/types/styling';
+
+export const AuthForm = ({ mode, onSubmit }: AuthFormProps) => {
+  const router = useRouter();
   const isSignup = mode === 'signup';
 
   const [name, setName] = useState('');
@@ -37,81 +44,89 @@ export const AuthForm = ({ mode, onSubmit }: Props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        {isSignup ? 'Create Account' : 'Welcome Back'}
-      </Text>
+    <ScreenWrapper>
+      <IconButton name="chevron-left" onPress={() => router.back()} size={36} />
+      <View style={styles.container}>
+        <Text style={styles.title}>
+          {isSignup ? 'Create Account' : 'Welcome Back'}
+        </Text>
 
-      {isSignup && (
+        {isSignup && (
+          <TextInput
+            style={styles.input}
+            placeholder="Name"
+            value={name}
+            onChangeText={setName}
+          />
+        )}
+
         <TextInput
           style={styles.input}
-          placeholder="Name"
-          value={name}
-          onChangeText={setName}
+          keyboardType="email-address"
+          placeholder="Email"
+          autoCapitalize="none"
+          value={authState.email}
+          onChangeText={(text) =>
+            setAuthState((prev) => ({ ...prev, email: text }))
+          }
         />
-      )}
 
-      <TextInput
-        style={styles.input}
-        keyboardType="email-address"
-        placeholder="Email"
-        autoCapitalize="none"
-        value={authState.email}
-        onChangeText={(text) =>
-          setAuthState((prev) => ({ ...prev, email: text }))
-        }
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry
+          value={authState.password}
+          onChangeText={(text) =>
+            setAuthState((prev) => ({ ...prev, password: text }))
+          }
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        value={authState.password}
-        onChangeText={(text) =>
-          setAuthState((prev) => ({ ...prev, password: text }))
-        }
-      />
+        <CustomButton onPress={submitHandler}>
+          <Text style={styles.buttonText}>
+            {isSignup ? 'Sign Up' : 'Login'}
+          </Text>
+        </CustomButton>
 
-      <Pressable style={styles.button} onPress={submitHandler}>
-        <Text style={styles.buttonText}>{isSignup ? 'Sign Up' : 'Login'}</Text>
-      </Pressable>
-
-      <View style={styles.switchContainer}>
         {isSignup ? (
-          <Text style={styles.switchText}>
-            Already have an account?{' '}
-            <Link href="/login" style={styles.link}>
-              Login
-            </Link>
-          </Text>
+          <View style={styles.switchContainer}>
+            <Typo size={15} style={styles.switchText}>
+              Already have an account?
+            </Typo>
+            <TouchableOpacity onPress={() => router.replace('/(auth)/login')}>
+              <Typo size={15} color={colors.primary500} fontWeight={600}>
+                Login
+              </Typo>
+            </TouchableOpacity>
+          </View>
         ) : (
-          <Text style={styles.switchText}>
-            Don't have an account?{' '}
-            <Link href="/signup" style={styles.link}>
-              Sign up
-            </Link>
-          </Text>
+          <View style={styles.switchContainer}>
+            <Typo size={15} style={styles.switchText}>
+              Don't have an account?
+            </Typo>
+            <TouchableOpacity onPress={() => router.replace('/(auth)/signup')}>
+              <Typo size={15} color={colors.primary500} fontWeight={600}>
+                Sign up
+              </Typo>
+            </TouchableOpacity>
+          </View>
         )}
       </View>
-    </View>
+    </ScreenWrapper>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     padding: 24,
-    backgroundColor: '#f5f5f5',
+    marginTop: verticalScale(120),
   },
-
   title: {
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 30,
     textAlign: 'center',
   },
-
   input: {
     backgroundColor: 'white',
     borderRadius: 10,
@@ -121,30 +136,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
   },
-
-  button: {
-    backgroundColor: '#4CAF50',
-    padding: 14,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-
   buttonText: {
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
   },
   switchContainer: {
+    flexDirection: 'row',
     marginTop: 20,
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
   },
   switchText: {
-    fontSize: 14,
+    // fontSize: 14,
     color: '#666',
   },
   link: {
     color: '#4CAF50',
-    fontWeight: '600',
   },
 });
