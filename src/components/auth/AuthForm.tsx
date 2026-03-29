@@ -18,13 +18,14 @@ import CustomButton from '@/components/CustomButton';
 
 import { colors } from '@/constants/colors';
 import { verticalScale } from '@/utils/styling';
-import { AuthFormProps } from '@/types/styling';
+import { AuthFormProps } from '@/types/userTypes';
 
 export const AuthForm = ({ mode, onSubmit }: AuthFormProps) => {
   const router = useRouter();
   const isSignup = mode === 'signup';
 
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [authState, setAuthState] = useState({
     email: '',
     password: '',
@@ -34,12 +35,30 @@ export const AuthForm = ({ mode, onSubmit }: AuthFormProps) => {
   // const [password, setPassword] = useState('');
 
   const submitHandler = () => {
+    if (isSignup) {
+      if (
+        firstName === '' ||
+        lastName === '' ||
+        authState.email === '' ||
+        authState.password === ''
+      ) {
+        return Alert.alert('Error', 'All fields are required');
+      }
+
+      onSubmit({
+        ...authState,
+        firstName,
+        lastName,
+      });
+
+      return;
+    }
+
     if (authState.email === '' || authState.password === '')
       return Alert.alert('Error', 'Email and password are required');
 
     onSubmit({
       ...authState,
-      ...(isSignup && { name }),
     });
   };
 
@@ -52,12 +71,20 @@ export const AuthForm = ({ mode, onSubmit }: AuthFormProps) => {
         </Text>
 
         {isSignup && (
-          <TextInput
-            style={styles.input}
-            placeholder="Name"
-            value={name}
-            onChangeText={setName}
-          />
+          <>
+            <TextInput
+              style={styles.input}
+              placeholder="First name"
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Last name"
+              value={lastName}
+              onChangeText={setLastName}
+            />
+          </>
         )}
 
         <TextInput

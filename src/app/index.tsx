@@ -8,9 +8,9 @@ const index = () => {
   useEffect(() => {
     setTimeout(() => {
       // router.push('/(tabs)');
-      router.push('/(auth)/welcome');
+      router.replace('/(auth)/welcome');
     }, 2000);
-  });
+  }, []);
 
   return (
     <View style={styles.container}>

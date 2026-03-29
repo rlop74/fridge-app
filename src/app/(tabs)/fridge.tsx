@@ -60,8 +60,7 @@ export default function FridgeScreen() {
     const fetchFridgeItems = async () => {
       try {
         const data = await getItems();
-        console.log(data);
-        setFridgeItems(data);
+        setFridgeItems(data?.items);
       } catch (err) {
         console.error('Failed to get Fridge Items: ', err);
         alert('Something went wrong');
@@ -82,7 +81,7 @@ export default function FridgeScreen() {
       {addItemModalVisible && <AddItemModal />}
 
       <View style={styles.searchContainer}>
-        <IconButton size={20} name="magnify" color="gray" />
+        <IconButton size={20} name="magnify" color="gray"/>
         <TextInput
           placeholder="Search items"
           value={search}

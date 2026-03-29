@@ -23,6 +23,7 @@ export default function Login() {
 
       if (response.status === 200) {
         // handle redirect
+        console.log(response.data.tokens.refreshToken);
         login(response.data.tokens.refreshToken);
         router.replace('/(tabs)');
         return 'success';

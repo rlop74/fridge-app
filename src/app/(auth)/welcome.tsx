@@ -1,15 +1,27 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRouter } from 'expo-router';
+
+// components
 import ScreenWrapper from '@/components/ScreenWrapper';
 import Typo from '@/components/Typo';
+import FullButton from '@/components/CustomButton';
+
+//
 import { spacingX, spacingY } from '@/constants/styles';
 import { verticalScale } from '@/utils/styling';
-import { useRouter } from 'expo-router';
-import { colors } from '@/constants/colors';
-import FullButton from '@/components/CustomButton';
+import { useAuthContext } from '@/contexts/auth';
 
 const Welcome = () => {
   const router = useRouter();
+  const { session } = useAuthContext();
+
+  useEffect(() => {
+    if (session) {
+      router.replace('/(tabs)');
+      return;
+    }
+  }, [session]);
 
   return (
     <ScreenWrapper>
@@ -44,7 +56,9 @@ const Welcome = () => {
           </View>
           <View style={styles.buttonContainer}>
             <FullButton onPress={() => router.push('/(auth)/signup')}>
-              <Typo size={20} fontWeight={600} color="white">Get started</Typo>
+              <Typo size={20} fontWeight={600} color="white">
+                Get started
+              </Typo>
             </FullButton>
           </View>
         </View>
