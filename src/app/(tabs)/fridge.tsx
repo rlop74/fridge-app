@@ -72,7 +72,7 @@ export default function FridgeScreen() {
     fridgeItems.filter((item) => {
       return (
         item.name.toLowerCase().includes(lowerSearch) ||
-        item.quantity.toString().includes(lowerSearch) ||
+        item.quantityCurrent.toString().includes(lowerSearch) ||
         item.createdAt?.toString().includes(lowerSearch)
       );
     });
@@ -124,7 +124,7 @@ export default function FridgeScreen() {
                       <View>
                         <Text style={styles.itemName}>{item.name}</Text>
                         <Text style={styles.itemMeta}>
-                          Qty: {item.quantity}
+                          Qty: {item.quantityCurrent}
                         </Text>
                       </View>
                     </View>

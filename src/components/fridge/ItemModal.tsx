@@ -43,7 +43,7 @@ export const ItemModal = ({ pressedItem }: Props) => {
           {/* details */}
           <View style={styles.details}>
             <Text style={styles.detailText}>
-              Quantity: <Text style={styles.bold}>{pressedItem.quantity}</Text>
+              Quantity: <Text style={styles.bold}>{pressedItem.quantityCurrent}</Text>
             </Text>
           </View>
 
