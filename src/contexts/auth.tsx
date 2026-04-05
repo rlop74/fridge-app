@@ -1,7 +1,12 @@
 // https://docs.expo.dev/router/advanced/authentication/
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
+
 import { useStorageState } from './useStorageState';
+import {
+  AuthContextType,
+  IAuthContextProvider,
+} from '@/types/authContextTypes';
 // import appLogger from '~/utils/log/logger'
 
 // const logger = appLogger.extend('src/contexts/auth-context.tsx')
@@ -20,15 +25,44 @@ import { useStorageState } from './useStorageState';
 //   isLoading: false,
 // });
 
-type AuthContextType = {
-  // isLoggedIn: boolean;
-  login: (response: string) => void;
-  logout: () => void;
-  session?: string | null;
-  isLoading: boolean;
-};
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export default function AuthContextProvider({
+  children,
+}: IAuthContextProvider) {
+  const [[isSessionLoading, session], setSession] = useStorageState('session');
+  const [[isUserLoading, userState], setUser] = useStorageState('user');
+
+  const isLoading = isSessionLoading || isUserLoading;
+
+  const user = useMemo(() => {
+    try {
+      return userState ? JSON.parse(userState) : null;
+    } catch {
+      return null;
+    }
+  }, [userState]);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        login: (token, userInfo) => {
+          setSession(token);
+          setUser(JSON.stringify(userInfo));
+        },
+        logout: () => {
+          setSession(null);
+          setUser(null);
+        },
+        session,
+        isLoading,
+        user,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+}
 
 // use this hook to access the user info
 export function useAuthContext() {
@@ -50,35 +84,4 @@ export function useAuthContext() {
   // };
 
   return context;
-}
-
-interface IAuthContextProvider {
-  children: React.ReactNode | React.ReactNode[];
-}
-
-export default function AuthContextProvider({
-  children,
-}: IAuthContextProvider) {
-  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [[isLoading, session], setSession] = useStorageState('session');
-
-  return (
-    <AuthContext.Provider
-      value={{
-        // isLoggedIn,
-        login: (token) => {
-          // setIsLoggedIn(true);
-          setSession(token);
-        },
-        logout: () => {
-          // setIsLoggedIn(false);
-          setSession(null);
-        },
-        session,
-        isLoading,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
 }

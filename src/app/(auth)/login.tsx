@@ -23,7 +23,9 @@ export default function Login() {
 
       if (response.status === 200) {
         // handle redirect
-        login(response.data.tokens.refreshToken);
+        const refreshToken = response.data.tokens.refreshToken;
+        const user = response.data.user;
+        login(refreshToken, user);
         router.replace('/(tabs)');
         return 'success';
       }

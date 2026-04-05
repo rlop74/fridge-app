@@ -1,16 +1,22 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
 import { useRouter } from 'expo-router';
 
+import { useAuthContext } from '@/contexts/auth';
+
 const index = () => {
   const router = useRouter();
+  const { session, isLoading } = useAuthContext();
 
   useEffect(() => {
     setTimeout(() => {
-      // router.push('/(tabs)');
-      router.push('/(auth)/welcome');
+      if (session) {
+        router.replace('/(tabs)');
+        return;
+      }
+      router.replace('/(auth)/welcome');
     }, 2000);
-  });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -30,7 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 
+    // backgroundColor:
   },
   logo: {
     height: '30%',

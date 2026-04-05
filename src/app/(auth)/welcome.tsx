@@ -1,11 +1,11 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
+import { useRouter } from 'expo-router';
+
 import ScreenWrapper from '@/components/ScreenWrapper';
 import Typo from '@/components/Typo';
 import { spacingX, spacingY } from '@/constants/styles';
 import { verticalScale } from '@/utils/styling';
-import { useRouter } from 'expo-router';
-import { colors } from '@/constants/colors';
 import FullButton from '@/components/CustomButton';
 
 const Welcome = () => {
@@ -44,7 +44,9 @@ const Welcome = () => {
           </View>
           <View style={styles.buttonContainer}>
             <FullButton onPress={() => router.push('/(auth)/signup')}>
-              <Typo size={20} fontWeight={600} color="white">Get started</Typo>
+              <Typo size={20} fontWeight={600} color="white">
+                Get started
+              </Typo>
             </FullButton>
           </View>
         </View>
