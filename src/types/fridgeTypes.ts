@@ -2,7 +2,7 @@ export interface FridgeItem {
     id?: number;
     name: string;
     quantity: number;
-    createdAt?: Date;
+    createdAt: Date;
 }
 
 export interface UsedFridgeItem {
@@ -14,7 +14,7 @@ export interface UsedFridgeItem {
 }
 
 export type FridgeStore = {
-    fridgeItems: FridgeItem[];
+    fridgeItems: FridgeItem[] | [];
     usedFridgeItems: UsedFridgeItem[];
     setFridgeItems: (items: FridgeItem[]) => void;
     setUsedFridgeItems: (items: UsedFridgeItem[]) => void;

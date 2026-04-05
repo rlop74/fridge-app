@@ -24,12 +24,7 @@ export type IconButtonProps = {
   name: React.ComponentProps<typeof MaterialCommunityIcons>['name'];
   color?: string;
   size?: number;
-  onPress: () => void;
-};
-
-export type AuthFormProps = {
-  mode: 'login' | 'signup';
-  onSubmit: (data: { name?: string; email: string; password: string }) => void;
+  onPress?: () => void;
 };
 
 export interface FullButtonProps extends TouchableOpacityProps {
