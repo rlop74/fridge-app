@@ -20,7 +20,7 @@ export default function HomeScreen() {
 
   // redirect to login.tsx if no session exists
   if (!session) {
-    return <Redirect href="/login" />;
+    return <Redirect href="/welcome" />;
   }
 
   const handleSearch = () => {
@@ -43,7 +43,7 @@ export default function HomeScreen() {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.summaryContainer}>
-          <Text style={styles.userGreeting}>Hello, {user.firstName}! 👋🏽</Text>
+          <Text style={styles.userGreeting}>Hello, {user?.firstName}! 👋🏽</Text>
           <Text>
             You have{' '}
             <Text

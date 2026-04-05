@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'expo-router';
 
 import ScreenWrapper from '@/components/ScreenWrapper';
@@ -7,9 +7,18 @@ import Typo from '@/components/Typo';
 import { spacingX, spacingY } from '@/constants/styles';
 import { verticalScale } from '@/utils/styling';
 import FullButton from '@/components/CustomButton';
+import { useAuthContext } from '@/contexts/auth';
 
 const Welcome = () => {
   const router = useRouter();
+  const { session } = useAuthContext();
+
+  useEffect(() => {
+    if (session) {
+      router.replace('/(tabs)');
+      return;
+    }
+  }, [session]);
 
   return (
     <ScreenWrapper>
