@@ -10,3 +10,12 @@ export const getItems = async () => {
   console.log('getItems response:', response.data);
   return response.data;
 };
+
+export const getItemsByUserId = async (id: string | number) => {
+  const response = await itemsApi({
+    method: 'GET',
+    route: `/user/${id}`,
+  });
+  console.log('getItemsById response: ', response.data);
+  return response.data;
+};

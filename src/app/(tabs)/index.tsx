@@ -9,7 +9,7 @@ import { Redirect } from 'expo-router';
 import { useAuthContext } from '@/contexts/auth';
 
 export default function HomeScreen() {
-  const { session, logout, isLoading } = useAuthContext();
+  const { session, logout, isLoading, user } = useAuthContext();
 
   console.log(session);
 
@@ -43,7 +43,7 @@ export default function HomeScreen() {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.summaryContainer}>
-          <Text style={styles.userGreeting}>Hello, Russel! 👋🏽</Text>
+          <Text style={styles.userGreeting}>Hello, {user.firstName}! 👋🏽</Text>
           <Text>
             You have{' '}
             <Text
@@ -75,5 +75,6 @@ const styles = StyleSheet.create({
   userGreeting: {
     fontSize: 24,
     fontWeight: 'bold',
+    textTransform: 'capitalize'
   },
 });

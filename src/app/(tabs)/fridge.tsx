@@ -9,7 +9,6 @@ import {
   Alert,
   StyleSheet,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Constants & Types
 import { FridgeItem } from '@/types/fridgeTypes';
@@ -21,7 +20,8 @@ import { useModal } from '@/hooks/useModal';
 // api
 import { getFridgeItems } from '@/services/fridge/repository';
 import { formatDate } from '@/utils/formatDate';
-import { getItems } from '@/services/api/items';
+import { getItems, getItemsByUserId } from '@/services/api/items';
+import { useAuthContext } from '@/contexts/auth';
 
 // styles and components
 import { Header } from '@/components/home/Header';
@@ -31,6 +31,8 @@ import { AddItemModal } from '@/components/fridge/AddItemModal';
 import { GlobalStyles } from '@/constants/styles';
 
 export default function FridgeScreen() {
+  const { user } = useAuthContext();
+
   const [search, setSearch] = useState('');
   const {
     itemModalVisible,
@@ -44,6 +46,25 @@ export default function FridgeScreen() {
 
   // const formattedDate = formatDate(pressedItem.created_at)
 
+  useEffect(() => {
+    const fetchFridgeItems = async () => {
+      try {
+        if (!user) {
+          setFridgeItems([]);
+          return;
+        }
+        const data = await getItemsByUserId(user.id);
+        setFridgeItems(data.items);
+      } catch (err: any) {
+        console.error('Failed to get Fridge Items: ', err);
+        // console.error('error message: ', err.message);
+        alert('Something went wrong');
+      }
+    };
+
+    fetchFridgeItems();
+  }, [user]);
+
   // apply search
   const lowerSearch: string = search.toLowerCase();
   const filteredSearch =
@@ -55,21 +76,6 @@ export default function FridgeScreen() {
         item.createdAt?.toString().includes(lowerSearch)
       );
     });
-
-  useEffect(() => {
-    const fetchFridgeItems = async () => {
-      try {
-        const data = await getItems();
-        console.log(data);
-        setFridgeItems(data);
-      } catch (err) {
-        console.error('Failed to get Fridge Items: ', err);
-        alert('Something went wrong');
-      }
-    };
-
-    fetchFridgeItems();
-  }, []);
 
   return (
     <>
@@ -107,25 +113,25 @@ export default function FridgeScreen() {
                       setPressedItem(item);
                       setItemModalVisible(true);
                     }}
-                    className="mx-3 mb-3 rounded-2xl p-4 flex-row items-center justify-between border-b border-gray-300"
+                    style={styles.listItem}
                   >
-                    {/* left: identity */}
-                    <View className="flex-row gap-3 items-center">
-                      {/* icon / placeholder */}
-                      <View className="h-14 w-14 rounded-xl bg-cardBg justify-center items-center">
-                        <Text className="font-bold">🍽️</Text>
+                    {/* left */}
+                    <View style={styles.leftSection}>
+                      <View style={styles.iconBox}>
+                        <Text>🍽️</Text>
                       </View>
 
-                      {/* text */}
-                      <View className="gap-1">
-                        <Text>{item.name}</Text>
-                        <Text>Quantity: {item.quantity}</Text>
+                      <View>
+                        <Text style={styles.itemName}>{item.name}</Text>
+                        <Text style={styles.itemMeta}>
+                          Qty: {item.quantity}
+                        </Text>
                       </View>
                     </View>
 
-                    {/* right: metadata */}
-                    <View>
-                      <Text>
+                    {/* right */}
+                    <View style={styles.rightSection}>
+                      <Text style={styles.dateText}>
                         {formatDate(item.createdAt?.toString() || '')}
                       </Text>
                     </View>
@@ -134,14 +140,18 @@ export default function FridgeScreen() {
               })
           ) : (
             <View>
-              <Text style={styles.title}>No items yet</Text>
+              <Text style={styles.noItemsText}>No items yet</Text>
             </View>
           )}
         </ScrollView>
       </View>
 
       {/* modal */}
-      {pressedItem && <ItemModal pressedItem={pressedItem} />}
+      {pressedItem && itemModalVisible && (
+        <View style={styles.modalOverlay}>
+          <ItemModal pressedItem={pressedItem} />
+        </View>
+      )}
     </>
   );
 }
@@ -149,8 +159,8 @@ export default function FridgeScreen() {
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
-    margin: 8,
-    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingTop: 8,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -159,10 +169,75 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderColor: GlobalStyles.colors.gray300,
   },
-  title: {
+  noItemsText: {
     fontSize: 16,
     fontWeight: 'bold',
     color: GlobalStyles.colors.primary800,
     marginTop: 24,
+    alignSelf: 'center',
+  },
+  listItem: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 12,
+
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+
+    // shadow (iOS)
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 2 },
+
+    // elevation (Android)
+    elevation: 2,
+  },
+
+  leftSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+
+  iconBox: {
+    height: 50,
+    width: 50,
+    borderRadius: 12,
+    backgroundColor: '#f3f4f6',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  itemName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#111827',
+  },
+
+  itemMeta: {
+    fontSize: 13,
+    color: '#6b7280',
+    marginTop: 2,
+  },
+
+  rightSection: {
+    alignItems: 'flex-end',
+  },
+
+  dateText: {
+    fontSize: 12,
+    color: '#9ca3af',
+  },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'flex-end',
   },
 });
