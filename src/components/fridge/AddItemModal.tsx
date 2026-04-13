@@ -20,62 +20,87 @@ import { FridgeItem } from '@/types/fridgeTypes';
 
 // api
 import { addFridgeItems } from '@/services/fridge/repository';
+import { useAuthContext } from '@/contexts/auth';
 
 export const AddItemModal = () => {
   const { addItemModalVisible, setAddItemModalVisible } = useModal(
     (state) => state,
   );
   const { addFridgeItem } = useFridgeStore((state) => state);
+  const { user } = useAuthContext();
+
+  const getDefaultExpiryDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 14);
+    return date;
+  };
+
   const [newItem, setNewItem] = useState<FridgeItem>({
     name: '',
-    quantity: 0,
-    createdAt: new Date(),
+    userId: user!.id,
+    quantityCurrent: 0,
+    createdAt: new Date().toISOString(), // returns UTC <string>
+    expiryDate: getDefaultExpiryDate(),
+    // expiryDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)
   });
 
   return (
-    <Modal transparent visible={addItemModalVisible} animationType="fade">
-      <View style={styles.modalContainer}>
-        <View style={styles.modalCard}>
-          <Text style={styles.title}>Add Item</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter item name..."
-            value={newItem.name}
-            onChangeText={(input) =>
-              setNewItem({
-                ...newItem,
-                name: input,
-              })
-            }
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Enter item quantity..."
-            onChangeText={(input) =>
-              setNewItem({
-                ...newItem,
-                quantity: Number(input),
-              })
-            }
-          />
+    <Modal transparent visible={addItemModalVisible} animationType="slide">
+      <View style={styles.overlay}>
+        <View style={styles.sheet}>
+          {/* handle */}
+          <View style={styles.handle} />
 
-          {/* buttons */}
-          <View style={styles.buttonContainer}>
+          {/* header */}
+          <Text style={styles.title}>Add Item</Text>
+
+          {/* inputs */}
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Item name"
+              placeholderTextColor="#9ca3af"
+              value={newItem.name}
+              onChangeText={(input) =>
+                setNewItem({
+                  ...newItem,
+                  name: input,
+                })
+              }
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Quantity"
+              placeholderTextColor="#9ca3af"
+              keyboardType="numeric"
+              onChangeText={(input) =>
+                setNewItem({
+                  ...newItem,
+                  quantityCurrent: Number(input),
+                })
+              }
+            />
+          </View>
+
+          {/* actions */}
+          <View style={styles.actions}>
             <Pressable
+              style={styles.primaryBtn}
               onPress={() => {
-                addFridgeItem(newItem); // frontend ui update
-                addFridgeItems(newItem); // backend api update
+                addFridgeItem(newItem); // update frontend
+                addFridgeItems(newItem); // update backend
                 setAddItemModalVisible(false);
               }}
             >
-              <View style={[styles.button, styles.addButton]}>
-                <Text style={styles.buttonText}>Add Item</Text>
-              </View>
+              <Text style={styles.primaryText}>Add Item</Text>
             </Pressable>
-            <Pressable onPress={() => setAddItemModalVisible(false)}>
-              <View style={[styles.button, styles.cancelButton]}>
-                <Text style={styles.cancelText}>Cancel</Text>
-              </View>
+
+            <Pressable
+              style={styles.cancelBtn}
+              onPress={() => setAddItemModalVisible(false)}
+            >
+              <Text style={styles.cancelText}>Cancel</Text>
             </Pressable>
           </View>
         </View>
@@ -85,60 +110,62 @@ export const AddItemModal = () => {
 };
 
 const styles = StyleSheet.create({
-  modalContainer: {
+  overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.45)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  sheet: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
     padding: 20,
   },
-  modalCard: {
-    width: '100%',
-    maxWidth: 400,
-    backgroundColor: 'white',
-    borderRadius: 16,
-    padding: 24,
-    shadowColor: '#000',
-    shadowOpacity: 0.25,
-    shadowRadius: 10,
-    elevation: 6,
+  handle: {
+    width: 40,
+    height: 4,
+    backgroundColor: '#d1d5db',
+    borderRadius: 2,
+    alignSelf: 'center',
+    marginBottom: 12,
   },
   title: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 16,
+  },
+  inputContainer: {
+    gap: 12,
     marginBottom: 20,
   },
   input: {
-    borderWidth: 1,
-    borderColor: GlobalStyles.colors.gray200,
-    borderRadius: 10,
-    padding: 12,
-    marginBottom: 12,
+    backgroundColor: '#f9fafb',
+    borderRadius: 12,
+    padding: 14,
     fontSize: 16,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+  actions: {
     gap: 10,
-    marginTop: 10,
   },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    borderRadius: 8,
+  primaryBtn: {
+    backgroundColor: GlobalStyles.colors.primary800,
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: 'center',
   },
-  addButton: {
-    backgroundColor: GlobalStyles.colors.primary500,
-  },
-  cancelButton: {
-    backgroundColor: GlobalStyles.colors.gray300,
-  },
-  buttonText: {
-    color: 'white',
+  primaryText: {
+    color: '#fff',
     fontWeight: '600',
+    fontSize: 15,
+  },
+  cancelBtn: {
+    paddingVertical: 14,
+    alignItems: 'center',
   },
   cancelText: {
-    color: '#333',
-    fontWeight: '600',
+    color: '#6b7280',
+    fontWeight: '500',
   },
 });

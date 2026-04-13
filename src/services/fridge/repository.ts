@@ -1,4 +1,4 @@
-import client from '../api/client';
+import { client } from '../api/client';
 
 // types
 import { FridgeItem } from '@/types/fridgeTypes';
