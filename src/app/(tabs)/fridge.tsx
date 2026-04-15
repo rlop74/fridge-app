@@ -85,7 +85,6 @@ export default function FridgeScreen() {
         firstIcon="cart-plus"
         firstOnPress={() => setAddItemModalVisible(!addItemModalVisible)}
       />
-      {addItemModalVisible && <AddItemModal />}
 
       <View style={styles.searchContainer}>
         <IconButton size={20} name="magnify" color="gray" />
@@ -132,7 +131,8 @@ export default function FridgeScreen() {
                     {/* right */}
                     <View style={styles.rightSection}>
                       <Text style={styles.dateText}>
-                        {formatDate(item.createdAt?.toString() || '')}
+                        {formatDate(item.createdAt)}
+                        {/* {item.createdAt} */}
                       </Text>
                     </View>
                   </Pressable>
@@ -146,7 +146,13 @@ export default function FridgeScreen() {
         </ScrollView>
       </View>
 
-      {/* modal */}
+      {/* modals */}
+      {addItemModalVisible && (
+        <View style={styles.modalOverlay}>
+          <AddItemModal />
+        </View>
+      )}
+
       {pressedItem && itemModalVisible && (
         <View style={styles.modalOverlay}>
           <ItemModal pressedItem={pressedItem} />
@@ -238,6 +244,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: 'rgba(0,0,0,0.4)',
-    justifyContent: 'flex-end',
+    // justifyContent: 'flex-end',
   },
 });

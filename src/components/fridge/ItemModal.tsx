@@ -43,7 +43,8 @@ export const ItemModal = ({ pressedItem }: Props) => {
           {/* details */}
           <View style={styles.details}>
             <Text style={styles.detailText}>
-              Quantity: <Text style={styles.bold}>{pressedItem.quantityCurrent}</Text>
+              Quantity:{' '}
+              <Text style={styles.bold}>{pressedItem.quantityCurrent}</Text>
             </Text>
           </View>
 
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   primaryBtn: {
-    backgroundColor: '#111827',
+    backgroundColor: GlobalStyles.colors.primary800,
     paddingVertical: 14,
     borderRadius: 12,
     alignItems: 'center',
