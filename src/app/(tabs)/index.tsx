@@ -8,10 +8,12 @@ import { GlobalStyles } from '@/constants/styles';
 import { Redirect } from 'expo-router';
 import { useAuthContext } from '@/contexts/auth';
 import { useFridgeStore } from '@/hooks/useFridgeItems';
+import { useEffect } from 'react';
+import { getItemsByUserId } from '@/services/api/items';
 
 export default function HomeScreen() {
   const { session, logout, isLoading, user } = useAuthContext();
-  const fridgeItems = useFridgeStore((state) => state.fridgeItems);
+  const { fridgeItems, setFridgeItems } = useFridgeStore((state) => state);
 
   console.log(session);
 
@@ -42,6 +44,25 @@ export default function HomeScreen() {
 
   // get fridge percentage
   const fridgePercentage = (fridgeItems.length / 50) * 100;
+
+  useEffect(() => {
+    const fetchFridgeItems = async () => {
+      try {
+        if (!user) {
+          setFridgeItems([]);
+          return;
+        }
+        const data = await getItemsByUserId(user.id);
+        setFridgeItems(data.items);
+      } catch (err: any) {
+        console.error('Failed to get Fridge Items: ', err);
+        // console.error('error message: ', err.message);
+        alert('Something went wrong');
+      }
+    };
+
+    fetchFridgeItems();
+  }, [user]);
 
   return (
     <>

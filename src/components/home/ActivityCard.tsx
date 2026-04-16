@@ -1,5 +1,4 @@
 import { View, Pressable, Text, Image, StyleSheet } from 'react-native';
-import { IconButton } from '@/components/IconButton';
 import { GlobalStyles } from '@/constants/styles';
 import { StatCard } from '@/components/home/StatCard';
 import { useRouter } from 'expo-router';
