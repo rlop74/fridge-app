@@ -14,9 +14,10 @@ import { GlobalStyles } from '@/constants/styles';
 
 interface Props {
   pressedItem: FridgeItem;
+  page: string;
 }
 
-export const ItemModal = ({ pressedItem }: Props) => {
+export const ItemModal = ({ pressedItem, page }: Props) => {
   const { itemModalVisible, setItemModalVisible } = useModal((state) => state);
   const { deleteFridgeItem } = useFridgeStore((state) => state);
 
@@ -49,15 +50,19 @@ export const ItemModal = ({ pressedItem }: Props) => {
           </View>
 
           {/* actions */}
-          <View style={styles.actions}>
-            <Pressable style={styles.primaryBtn}>
-              <Text style={styles.primaryText}>Consume</Text>
-            </Pressable>
+          {page === 'fridge' ? (
+            <View style={styles.actions}>
+              <Pressable style={styles.primaryBtn}>
+                <Text style={styles.primaryText}>Consume</Text>
+              </Pressable>
 
-            <Pressable style={styles.secondaryBtn}>
-              <Text style={styles.secondaryText}>Throw away</Text>
-            </Pressable>
-          </View>
+              <Pressable style={styles.secondaryBtn}>
+                <Text style={styles.secondaryText}>Throw away</Text>
+              </Pressable>
+            </View>
+          ) : (
+            ''
+          )}
 
           {/* destructive */}
           <Pressable
