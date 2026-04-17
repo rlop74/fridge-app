@@ -1,11 +1,19 @@
 import { View, Pressable, Text, Image, StyleSheet } from 'react-native';
-import { IconButton } from '@/components/IconButton';
 import { GlobalStyles } from '@/constants/styles';
 import { StatCard } from '@/components/home/StatCard';
+import { useRouter } from 'expo-router';
+import { FridgeItem } from '@/types/fridgeTypes';
 
-export const Cards = () => {
+type Props = {
+  potentiallyExpiredItems: FridgeItem[];
+  fridgePercentage: number | string;
+};
+
+export const Cards = ({ potentiallyExpiredItems, fridgePercentage }: Props) => {
+  const router = useRouter();
+
   const handleViewList = () => {
-    alert('View List has been pressed');
+    router.navigate('/(tabs)/fridge');
   };
 
   return (
@@ -55,7 +63,7 @@ export const Cards = () => {
           iconColor={GlobalStyles.colors.accentGreen}
           iconSize={22}
           label="FRIDGE FULL"
-          value="74% Full"
+          value={`${fridgePercentage}% Full`}
         />
 
         <StatCard
@@ -63,7 +71,11 @@ export const Cards = () => {
           iconColor={GlobalStyles.colors.accent500}
           iconSize={22}
           label="NEAR EXPIRY"
-          value="12 Items"
+          value={
+            potentiallyExpiredItems.length > 1
+              ? `${potentiallyExpiredItems.length} items`
+              : `${potentiallyExpiredItems.length} item`
+          }
         />
       </View>
     </View>

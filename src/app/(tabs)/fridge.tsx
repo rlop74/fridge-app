@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Text,
   TextInput,
@@ -14,8 +14,6 @@ import { useFridgeStore } from '@/hooks/useFridgeItems';
 import { useModal } from '@/hooks/useModal';
 
 // api
-import { formatDate } from '@/utils/formatDate';
-import { getItemsByUserId } from '@/services/api/items';
 import { useAuthContext } from '@/contexts/auth';
 
 // styles and components
@@ -27,8 +25,6 @@ import { styles } from './listStyle';
 import { ListItem } from '@/components/ListItem';
 
 export default function FridgeScreen() {
-  const { user } = useAuthContext();
-
   const [search, setSearch] = useState('');
   const {
     itemModalVisible,
@@ -38,26 +34,6 @@ export default function FridgeScreen() {
   } = useModal((state) => state);
   const [pressedItem, setPressedItem] = useState<FridgeItem>();
   const fridgeItems = useFridgeStore((state) => state.fridgeItems);
-  const setFridgeItems = useFridgeStore((state) => state.setFridgeItems);
-
-  useEffect(() => {
-    const fetchFridgeItems = async () => {
-      try {
-        if (!user) {
-          setFridgeItems([]);
-          return;
-        }
-        const data = await getItemsByUserId(user.id);
-        setFridgeItems(data.items);
-      } catch (err: any) {
-        console.error('Failed to get Fridge Items: ', err);
-        // console.error('error message: ', err.message);
-        alert('Something went wrong');
-      }
-    };
-
-    fetchFridgeItems();
-  }, [user]);
 
   // apply search
   const lowerSearch: string = search.toLowerCase();

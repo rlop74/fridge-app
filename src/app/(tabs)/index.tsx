@@ -7,9 +7,13 @@ import { RecipeSuggestions } from '@/components/home/RecipeSuggestions';
 import { GlobalStyles } from '@/constants/styles';
 import { Redirect } from 'expo-router';
 import { useAuthContext } from '@/contexts/auth';
+import { useFridgeStore } from '@/hooks/useFridgeItems';
+import { useEffect } from 'react';
+import { getItemsByUserId } from '@/services/api/items';
 
 export default function HomeScreen() {
   const { session, logout, isLoading, user } = useAuthContext();
+  const { fridgeItems, setFridgeItems } = useFridgeStore((state) => state);
 
   console.log(session);
 
@@ -30,6 +34,35 @@ export default function HomeScreen() {
   const handleLogout = () => {
     logout();
   };
+
+  // get total expired items
+  const twoWeeksAgo = new Date();
+  twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+  const potentiallyExpiredItems = fridgeItems.filter(
+    (item) => new Date(item.createdAt) < twoWeeksAgo,
+  );
+
+  // get fridge percentage
+  const fridgePercentage = (fridgeItems.length / 50) * 100;
+
+  useEffect(() => {
+    const fetchFridgeItems = async () => {
+      try {
+        if (!user) {
+          setFridgeItems([]);
+          return;
+        }
+        const data = await getItemsByUserId(user.id);
+        setFridgeItems(data.items);
+      } catch (err: any) {
+        console.error('Failed to get Fridge Items: ', err);
+        // console.error('error message: ', err.message);
+        alert('Something went wrong');
+      }
+    };
+
+    fetchFridgeItems();
+  }, [user]);
 
   return (
     <>
@@ -52,14 +85,20 @@ export default function HomeScreen() {
                 color: GlobalStyles.colors.primary500,
               }}
             >
-              74 items
+              {potentiallyExpiredItems.length > 1
+                ? `${potentiallyExpiredItems.length} items`
+                : `${potentiallyExpiredItems.length} item`}
             </Text>{' '}
-            expiring in the next 48 hours.
+            {/* expiring in the next 48 hours. */}
+            that is potentially expired.
           </Text>
         </View>
         <View>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Cards />
+            <Cards
+              potentiallyExpiredItems={potentiallyExpiredItems}
+              fridgePercentage={fridgePercentage}
+            />
             <RecipeSuggestions />
           </ScrollView>
         </View>
@@ -75,6 +114,6 @@ const styles = StyleSheet.create({
   userGreeting: {
     fontSize: 24,
     fontWeight: 'bold',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
 });
