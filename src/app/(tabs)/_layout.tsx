@@ -17,6 +17,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <Ionicons name="home" size={24} color={color} />
           ),
+          animation: 'shift',
         }}
       />
       <Tabs.Screen
@@ -26,6 +27,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="fridge" size={24} color={color} />
           ),
+          animation: 'shift',
         }}
       />
       <Tabs.Screen
@@ -35,6 +37,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="camera" size={24} color={color} />
           ),
+          animation: 'shift',
         }}
       />
       <Tabs.Screen
@@ -48,6 +51,7 @@ export default function TabLayout() {
               color={color}
             />
           ),
+          animation: 'shift',
         }}
       />
     </Tabs>
