@@ -105,7 +105,11 @@ export default function FridgeScreen() {
 
       {pressedItem && itemModalVisible && (
         <View style={styles.modalOverlay}>
-          <ItemModal pressedItem={pressedItem} page="fridge" />
+          <ItemModal
+            pressedItem={pressedItem}
+            setPressedItem={setPressedItem}
+            page="fridge"
+          />
         </View>
       )}
     </>

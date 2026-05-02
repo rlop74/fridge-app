@@ -1,11 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  Text,
-  TextInput,
-  View,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
+import { Text, TextInput, View, ScrollView, StyleSheet } from 'react-native';
 
 // Constants & Types
 import { FridgeItem } from '@/types/fridgeTypes';
@@ -129,7 +123,11 @@ export default function HistoryScreen() {
 
       {pressedItem && itemModalVisible && (
         <View style={styles.modalOverlay}>
-          <ItemModal pressedItem={pressedItem} page="history" />
+          <ItemModal
+            pressedItem={pressedItem}
+            setPressedItem={setPressedItem}
+            page="history"
+          />
         </View>
       )}
     </>

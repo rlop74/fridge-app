@@ -1,4 +1,5 @@
 import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
+import { Dispatch, SetStateAction } from 'react';
 
 // hooks
 import { useModal } from '@/hooks/useModal';
@@ -15,9 +16,10 @@ import { GlobalStyles } from '@/constants/styles';
 interface Props {
   pressedItem: FridgeItem;
   page: string;
+  setPressedItem: Dispatch<SetStateAction<FridgeItem | undefined>>;
 }
 
-export const ItemModal = ({ pressedItem, page }: Props) => {
+export const ItemModal = ({ pressedItem, page, setPressedItem }: Props) => {
   const { itemModalVisible, setItemModalVisible } = useModal((state) => state);
   const { deleteFridgeItem } = useFridgeStore((state) => state);
 
@@ -79,7 +81,10 @@ export const ItemModal = ({ pressedItem, page }: Props) => {
           {/* cancel */}
           <Pressable
             style={styles.cancelBtn}
-            onPress={() => setItemModalVisible(false)}
+            onPress={() => {
+              setItemModalVisible(false);
+              setPressedItem(undefined);
+            }}
           >
             <Text style={styles.cancelText}>Cancel</Text>
           </Pressable>
