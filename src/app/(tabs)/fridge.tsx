@@ -1,10 +1,5 @@
 import { useState } from 'react';
-import {
-  Text,
-  TextInput,
-  View,
-  ScrollView,
-} from 'react-native';
+import { Text, TextInput, View, ScrollView } from 'react-native';
 
 // Constants & Types
 import { FridgeItem } from '@/types/fridgeTypes';
@@ -35,17 +30,26 @@ export default function FridgeScreen() {
   const [pressedItem, setPressedItem] = useState<FridgeItem>();
   const fridgeItems = useFridgeStore((state) => state.fridgeItems);
 
-  // apply search
+  // filter items to show only past two weeks and apply search
+  const twoWeeksAgo = new Date();
+  twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+
   const lowerSearch: string = search.toLowerCase();
-  const filteredSearch =
-    fridgeItems.length > 0 &&
-    fridgeItems.filter((item) => {
-      return (
-        item.name.toLowerCase().includes(lowerSearch) ||
-        item.quantityCurrent.toString().includes(lowerSearch) ||
-        item.createdAt?.toString().includes(lowerSearch)
-      );
-    });
+
+  const filteredSearch = fridgeItems.filter((item) => {
+    if (!item.createdAt) return false;
+
+    const itemDate = new Date(item.createdAt);
+
+    // only keep items created within the past 14 days
+    if (itemDate < twoWeeksAgo) return false;
+
+    return (
+      item.name.toLowerCase().includes(lowerSearch) ||
+      item.quantityCurrent.toString().includes(lowerSearch) ||
+      item.createdAt?.toString().includes(lowerSearch)
+    );
+  });
 
   return (
     <>
